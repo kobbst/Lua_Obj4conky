@@ -1,3 +1,34 @@
+
+[[
+http://www.brawnexercicios.com.br/2012/03/exercicio-resolvido-geometria-plana.html
+{
+          [a1,a2]
+       /          \
+      /            \
+[b1,b2]            [f1,f2] 
+    |                |
+    |                |
+[c1,c2]            [e1,e2]
+      \            /
+       \          / 
+          [d1,d2]
+
+d = comprimento de um dos lados do hexágono (√[(a1 - b1)² + (a2 - b2)²])
+(p1) a1 = fornecido              a1 = fornecido
+(p2) b1 = a1 - d*cos(30°)        b2 = a2 - d*sen(30°)
+(p3) c1 = b1                     c2 = b2 - d
+(p4) d1 = b1 + d*cos(30°)        d2 = b2 - d*(1+sen(30°))
+(p5) e1 = b1 + 2d*cos(30°)       e2 = b2 - d 
+(p6) f1 = b1 + 2d*cos(30°)       f2 = b2
+----------------------------
+cos(30°) = (√3)/2 = 0.866
+sen(30°) = 1/2
+
+}
+
+]]
+
+
 require 'cairo'
 
 local hexagon = {}
