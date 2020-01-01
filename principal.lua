@@ -5,8 +5,7 @@ local fe = require("figures")
 -- fg = require("figuras")
 -- require("settings")
 
-
-
+local th = require("topHexagon")
 
 -------------------------------------------------------------------------------
 --                                                                         MAIN
@@ -21,9 +20,12 @@ function conky_main()
     local fe2 = fe.new()
     local fe3 = fe.new()
     local fe4 = fe.new()
+    local th1 = th.new(100)
+
+    -- print(th1:getElement())
 
     fe1:retangulo(25, 50 ,25 ,10)
-    fe2:retangulo(25, 75 ,30 ,10)
+    fe2:retangulo(25, 75 ,-30 ,10)
     fe3:circulo(20, 150 ,100 ,100)
     fe3:circulo(20, 150 ,110 ,110)
     -- fe3:circuloGradiente(15 ,250 , 100, 50)
