@@ -20,9 +20,10 @@ function conky_main()
     local fe2 = fe.new()
     local fe3 = fe.new()
     local fe4 = fe.new()
-    local th1 = th.new(100)
+    local th1 = th.new(10)
 
     -- print(th1:getElement())
+    -- print(th1:getAllvar:d())
 
     fe1:retangulo(25, 50 ,25 ,10)
     fe2:retangulo(25, 75 ,-30 ,10)

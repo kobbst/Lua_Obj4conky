@@ -33,20 +33,20 @@ local topHex = {}
 
 function topHex.new(width)
     local thex = {
-        width = width or 1, height =  (width or 1) * 0.2887,
-        d = 0.5774*(width or 1),
-        p0 = {x = 0, y = 0, z = 0},
-        p1 = {x1 = 2.5, y1 = 0.66, z = 0},
-        p2 = {x2 = 7.5, y2 = 0.66, z = 0},
-        p3 = {x3 = 10.0, y3 = 5.0, z = 0},
-        p4 = {x4 = 7.5, y4 = 9.33, z = 0},
-        p5 = {x5 = 2.5, y5 = 9.33, z = 0},
-        p6 = {x6 = 0.0, y6 = 5.0, z = 0},
-        pc = {},
+        width = width or 1, height =  (width or 1) /(2*math.sqrt(3)),
+        d = (width or 1)/(2*math.cos(math.pi/6)),
+        p0 = {x = (width or 1)/(2), y = 0, z = 0},
+        p1 = {x1 = 0, y1 = height, z = 0},
+        p2 = {x2 = width, y2 = height, z = 0},
         line_width = 1, color_default = 'ffffff', opacity = 1.
         }
     function thex:getElement()
-        return self.d
+        return self.d, self.height, self.width
+    end
+
+    function thex:getAllvar(  )
+        return thex
+        -- body
     end
 
     return thex
