@@ -48,6 +48,9 @@ function topHex.new(width)
         return thex
         -- body
     end
+    function thex:draw( ... )
+        -- body
+    end
 
     return thex
 end
