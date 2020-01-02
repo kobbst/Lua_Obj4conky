@@ -6,6 +6,7 @@ local fe = require("figures")
 -- require("settings")
 
 local th = require("topHexagon")
+local hx = require("hexagon")
 
 -------------------------------------------------------------------------------
 --                                                                         MAIN
@@ -14,16 +15,26 @@ function conky_main()
         return
     end
     -- print("ok...")
-    -- ds = cairo_xlib_surface_create(conky_window.display, conky_window.drawable, conky_window.visual, conky_window.width, conky_window.height)
-    -- dr = cairo_create(ds)
+    ds = cairo_xlib_surface_create(conky_window.display, conky_window.drawable, conky_window.visual, conky_window.width, conky_window.height)
+    dr = cairo_create(ds)
     local fe1 = fe.new()
     local fe2 = fe.new()
     local fe3 = fe.new()
     local fe4 = fe.new()
-    local th1 = th.new(10)
+    local th1 = th.new(50)
+    local hx1 = hx.new(50)
+    
+    local x, y = hx1:getCenter()
+    -- print (x .. " : " .. y)
 
     -- print(th1:getElement())
+    -- print(hx1:getCenter())
     -- print(th1:getAllvar:d())
+    th1:draw(25, 350, 2, "ffffff", 0.3)
+    th1:draw(75, 350, 4, "ffff00", 0.5)
+
+    hx1:draw(60,20,2, "ffffff", 0.3)
+    hx1:draw(75,25,1,"22ff00",0.2,-0)
 
     fe1:retangulo(25, 50 ,25 ,10)
     fe2:retangulo(25, 75 ,-30 ,10)
@@ -41,7 +52,7 @@ function conky_main()
     fe4:retangulo(15 ,250 , 100, 50,1,"220000",0.3)
 
 
-    -- cairo_surface_destroy(ds)
-    -- cairo_destroy(dr)
+    cairo_surface_destroy(ds)
+    cairo_destroy(dr)
 end
 

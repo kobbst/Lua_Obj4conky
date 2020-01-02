@@ -29,38 +29,63 @@ p3[c1,c2]+       +p5[e1,e2]
 ]]
 
 
-require 'cairo'
+-- require 'cairo'
+
+local gc = require("getColor")
 
 local hexagon = {}
 
-function hexagon.new(cs)
+function hexagon.new(width)
     local hex = {
-        width = 50, height = 50,
+
+        width = width or 1, height =  (width or 1) /(2*math.sqrt(3)),
+        line_width = 1, color_default = 'ffffff', opacity = 1.,
+        d = (width or 1)/(2*math.cos(math.pi/6)),
         p0 = {x = 0, y = 0, z = 0},
-        p1 = {x1 = 2.5, y1 = 0.66, z = 0},
-        p2 = {x2 = 7.5, y2 = 0.66, z = 0},
-        p3 = {x3 = 10.0, y3 = 5.0, z = 0},
-        p4 = {x4 = 7.5, y4 = 9.33, z = 0},
-        p5 = {x5 = 2.5, y5 = 9.33, z = 0},
-        p6 = {x6 = 0.0, y6 = 5.0, z = 0},
-        pc = {},
-        line_width = 1, color_default = 'ffffff', opacity = 1.
-                }
-function hex.draw()
-    cairo_save (cr)
-    cairo_translate (cr, x + w/2, y + h/2)
-    cairo_scale (cr, w/2., h/2.)
-    cairo_arc(cr, 0., 0., 1., 0,2*math.pi)
-    cairo_move_to (dr, x1, y1)
-    cairo_line_to (dr, x2, y2)
-    cairo_rel_line_to (dr, x2+100, y2-450)
-    
-    -- cairo_fill(cr)
-    cairo_restore (cr)
-    
-    cairo_stroke (cr)
-end
 
+        p1 = {x = (width or 1)/(2), y = 0, z = 0}
+        }
+        hex.p2 = {x = 0, y = hex.height, z = 0}
+        hex.p6 = {x = hex.width, y = hex.height, z = 0}
+        
+        hex.p3 = {x = hex.p2.x, y = hex.d + hex.height, z = 0}
+        hex.p4 = {x = hex.width/2, y = hex.d * 2 , z = 0}
+        hex.p5 = {x = hex.width, y = hex.d + hex.height, z = 0}
+        
+        hex.pc = {x = hex.height , y = hex.d, z = 0}
+
+    function hex:draw(x, y, ln, cl, op, rt)
+        -- local ds = cairo_xlib_surface_create(conky_window.display, conky_window.drawable, conky_window.visual, conky_window.width, conky_window.height)
+        local ldr = cairo_create(ds)
+        
+        cairo_set_line_width (ldr, ln or self.line_width)
+        cairo_set_source_rgba (ldr, gc.hex(cl or self.color_default, op or self.opacity))
+        
+        cairo_translate (ldr, 0, 0)
+        cairo_rotate (ldr, (rt or 0)* math.pi/180)
+        -- cairo_translate (ldr, x or 0,y or 0)
+        
+        cairo_translate (ldr, x or 0,y or 0)
+        -- cairo_set_source_rgba (dr, 200, 200, 200, 0.5)
+        cairo_move_to (ldr, self.p1.x, self.p1.y)
+        cairo_line_to (ldr, self.p2.x, self.p2.y)
+        cairo_line_to (ldr, self.p3.x, self.p3.y)
+        cairo_line_to (ldr, self.p4.x, self.p4.y)
+        cairo_line_to (ldr, self.p5.x, self.p5.y)
+        cairo_line_to (ldr, self.p6.x, self.p6.y)
+        cairo_line_to (ldr, self.p1.x, self.p1.y)
+        cairo_stroke(ldr)
+
+        -- cairo_surface_destroy(ds)
+        cairo_destroy(ldr) 
+    end
+
+    function hex:getCenter( ... )
+        return self.pc.x, self.pc.y
+    end
+
+    return hex
 
 end
+return hexagon
 
