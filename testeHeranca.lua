@@ -1,3 +1,4 @@
+
 -- Meta class
 Shape = {area = 0}
 -- 基础类方法 new
@@ -47,10 +48,13 @@ function Rectangle:new (o,length,breadth)
 end
 
 -- 派生类方法 printArea
-function Rectangle:printArea ()
-  print("A área do retângulo é ",self.area)
+function Rectangle:printArea (...)
+
+  local arg = {...}
+  print(#arg)
+  -- print("A área do retângulo é ",self.area)
 end
 
 -- 创建对象
-myrectangle = Rectangle:new(nil,10,20)
-myrectangle:printArea()
+-- myrectangle = Rectangle:new(nil,10,20)
+-- myrectangle:printArea("a",{x=2, y=3})
