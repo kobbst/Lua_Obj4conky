@@ -161,6 +161,21 @@ function figure.new(cs)
         cairo_surface_destroy(ds) 
     end
 
+    function fig:drawSector( ... )
+        local xc, yc, rd, ang1, ang2 = {...}
+
+        cairo_set_line_width (ldr, self.line_width)
+        cairo_set_source_rgba (ldr, gc.hex(self.color_default, self.opacity))
+
+        cairo_arc(ldr, xc, yc, rd, ang1, ang2) 
+        cairo_arc_negative(dr, xc, yc, 1*rd/2, ang2, ang1)
+        -- cairo_fill(dr)
+        cairo_close_path(ldr) 
+        cairo_stroke(ldr)
+        cairo_new_sub_path(ldr)
+
+    end
+
     return fig
 end
 
