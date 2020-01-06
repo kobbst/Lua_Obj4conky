@@ -41,9 +41,9 @@ function topHex.new(width)
         p2 = {x = width, y = (width or 1) /(2*math.sqrt(3)), z = 0},
         line_width = 3, color_default = 'ffffff', opacity = 1.
         }
-        thex.teste = thex.p1.y
+        thex.pi = {x=0,y=0,z=0}
     function thex:getElement()
-        return self.d, self.height, self.width, self.teste
+        return {d = self.d, h = self.height, w = self.width}
         -- return self.p0.x, self.p0.x, self.p1.x, self.p1.y, self.p2.x, self.p2.y
 
     end
@@ -58,6 +58,7 @@ function topHex.new(width)
 
         -- local ds = cairo_xlib_surface_create(conky_window.display, conky_window.drawable, conky_window.visual, conky_window.width, conky_window.height)
         local ldr = cairo_create(ds)
+        self.pi.x, self.pi.y = x , y
 
         cairo_translate (ldr, x or 0,y or 0)
         cairo_set_line_width (ldr,ln or self.line_width)
@@ -75,6 +76,15 @@ function topHex.new(width)
 
         -- cairo_surface_destroy(ds)
         cairo_destroy(ldr)        
+    end
+
+    function thex:getPoints( ... )
+        return {
+            p0 = {x = self.p0.x + self.pi.x, y = self.p0.y + self.pi.y}, 
+            p1 = {x = self.p1.x + self.pi.x, y = self.p1.y + self.pi.y},  
+            p2 = {x = self.p2.x + self.pi.x, y = self.p2.y + self.pi.y}
+        }
+        
     end
 
     return thex

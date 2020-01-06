@@ -41,7 +41,8 @@ function hexagon.new(width)
 
         width = width or 1, height =  (width or 1) /(2*math.sqrt(3)),
         line_width = 1, color_default = 'ffffff', opacity = 1.,
-        d = (width or 1)/(2*math.cos(math.pi/6))
+        d = (width or 1)/(2*math.cos(math.pi/6)),
+        pi = {x=0, y=0, z=0}
         
     }
         hex.p0 = {x = hex.d*(math.sqrt(3)/2) , y = hex.d, z = 0}
@@ -57,6 +58,7 @@ function hexagon.new(width)
     function hex:draw(x, y, ln, cl, op, rt)
         -- local ds = cairo_xlib_surface_create(conky_window.display, conky_window.drawable, conky_window.visual, conky_window.width, conky_window.height)
         local ldr = cairo_create(ds)
+        self.pi.x, self.pi.y = x , y
         
         cairo_set_line_width (ldr, ln or self.line_width)
         cairo_set_source_rgba (ldr, gc.hex(cl or self.color_default, op or self.opacity))
@@ -92,7 +94,14 @@ function hexagon.new(width)
     end
 
     function hex:getPoints( ... )
-        return {p0 = self.p0, p1 = self.p1, p2 = self.p2, p3 = self.p3,  p4 = self.p4, p5 = self.p5,  p6 = self.p6}
+        return {p0 = {x = self.p0.x + self.pi.x, y = self.p0.y + self.pi.y}, 
+                p1 = {x = self.p1.x + self.pi.x, y = self.p1.y + self.pi.y},  
+                p2 = {x = self.p2.x + self.pi.x, y = self.p2.y + self.pi.y},  
+                p3 = {x = self.p3.x + self.pi.x, y = self.p3.y + self.pi.y},  
+                p4 = {x = self.p4.x + self.pi.x, y = self.p4.y + self.pi.y},  
+                p5 = {x = self.p5.x + self.pi.x, y = self.p5.y + self.pi.y},  
+                p6 = {x = self.p6.x + self.pi.x, y = self.p6.y + self.pi.y},  
+                pi = self.pi}
     end
 
     function hex:getCenter( ... )

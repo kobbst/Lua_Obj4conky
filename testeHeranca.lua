@@ -55,6 +55,11 @@ function Rectangle:printArea (...)
   -- print("A área do retângulo é ",self.area)
 end
 
+local p1 = {x=2,y=3}
+local p2 = {x=2,y=3}
+local p3 = {x= p1.x + p2.x, y= p1.y + p2.y}
+print (p3.x .. ":" .. p3.y)
+
 -- 创建对象
 -- myrectangle = Rectangle:new(nil,10,20)
 -- myrectangle:printArea("a",{x=2, y=3})

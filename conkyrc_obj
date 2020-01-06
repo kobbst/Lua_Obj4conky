@@ -19,15 +19,15 @@ conky.config = {
     own_window_type = 'desktop',
     own_window_hints = 'undecorated,sticky,below,skip_taskbar,skip_pager,below', 	
     own_window_title = 'graph',
-    own_window_colour = '111111',
+    own_window_colour = '000000',
 
     minimum_width = 200, 
     maximum_width = 300,
     minimum_height = 600, 							
     
     alignment = 'top_right', 						
-    gap_x = 5,  								    
-    gap_y = 10, 
+    gap_x = 10,  								    
+    gap_y = 40, 
 
     out_to_console = false,
     out_to_stderr = false,

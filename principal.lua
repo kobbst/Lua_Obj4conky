@@ -26,28 +26,56 @@ function conky_main()
     
     local x, y = hx1:getCenter()
     -- print (x .. " : " .. y)
-
-    -- print(th1:getElement())
+    
+    -- print(th1:getElement().d)
     -- print(hx1:getCenter())
     -- print(th1:getAllvar:d())
     th1:draw(25, 350, 2, "ffffff", 0.3)
+    -- print(th1:getPoints().p1.y)
+    cairo_arc(dr, th1:getPoints().p2.x, th1:getPoints().p2.y, th1:getElement().d, math.pi,2*math.pi); cairo_new_sub_path(dr)
     th1:draw(75, 350, 4, "ffff00", 0.5)
+    cairo_arc(dr, th1:getPoints().p0.x, th1:getPoints().p0.y, 3., 0,2*math.pi); cairo_new_sub_path(dr)
     
-    hx1:draw(70,20,2, "ffffff", 0.3,90)
+    hx1:draw(70,30,2, "ffffff", 0.3,15)
+    -- print(hx1:getPoints().p1.x)
+    cairo_arc(dr, hx1:getPoints().p0.x, hx1:getPoints().p0.y, 3., 0,2*math.pi); cairo_new_sub_path(dr)
+    cairo_arc(dr, hx1:getPoints().p1.x, hx1:getPoints().p1.y, 3., 0,2*math.pi)
+    -- cairo_translate (dr, 70,30)
+    cairo_new_sub_path(dr)
+    cairo_arc(dr, hx1:getPoints().p2.x, hx1:getPoints().p2.y, 3., 0,2*math.pi)
+    cairo_new_sub_path(dr)
+    cairo_arc(dr, hx1:getPoints().p3.x, hx1:getPoints().p3.y, 3., 0,2*math.pi)
+    cairo_new_sub_path(dr)
+    cairo_arc(dr, hx1:getPoints().p4.x, hx1:getPoints().p4.y, 3., 0,2*math.pi)
+    cairo_new_sub_path(dr)
+    cairo_arc(dr, hx1:getPoints().p5.x, hx1:getPoints().p5.y, 3., 0,2*math.pi)
+    cairo_new_sub_path(dr)
+    cairo_arc(dr, hx1:getPoints().p6.x, hx1:getPoints().p6.y, 3., 0,2*math.pi)
+    cairo_new_sub_path(dr)
+    -- cairo_arc(dr, hx1:getPoints().p1.x, hx1:getPoints().p1.y, 5., 0,2*math.pi)
+    -- cairo_move_to(dr, 100, 310)
+    -- cairo_line_to (dr, 100 , 331)
+    -- local a,b = cairo_get_current_point(dr)
+    cairo_stroke(dr)
+    -- print(a.." : " .. b)
+    fe1:drawLine(hx1:getPoints().p1,hx1:getPoints().p4 ,2,"ff00aa",0.2)
+    
+    
+    
+    
     hx1:draw(70,150,1,"22ff00",0.4,10)
     hx1:draw(70,150,1,"22ff00",0.4,20)
     hx1:draw(70,150,1,"22ff00",0.4,30)
     hx1:draw(70,150,1,"22ff00",0.4,40)
     
-    -- print(hx1:getPoints().p1.x)
     
-    fe1:drawLine(hx1:getPoints().p1,hx1:getPoints().p4 ,2,"ffffaa",0.2)
-    -- fe1:drawLine(hx1:getCenter(),{x=60,y=40},2,"ffffaa",0.2)
+    
+    -- fe1:drawLine({x=120,y=70},{x=140,y=60},3,"ffffaa",0.4)
     
 
     -- fe1:retangulo(25, 50 ,25 ,10)
     -- fe2:retangulo(25, 75 ,-30 ,10)
-    -- fe3:circulo(20, 150 ,100 ,100)
+    -- fe1:circulo(70, 20 ,100 ,100)
     -- fe3:circulo(20, 150 ,110 ,110)
     -- fe3:circuloGradiente(15 ,250 , 100, 50)
     -- fe3:imagem("/home/kobb/Imagens/wwoman01.png",0, 410,100,100)
@@ -59,6 +87,7 @@ function conky_main()
     -- fe4:circulo(45 ,250 , 10, 50)
     -- fe4:circulo(55 ,250 , 10, 50, 2, "aa000f",0.5)
     -- fe4:retangulo(15 ,250 , 100, 50,1,"220000",0.3)
+
 
 
     cairo_surface_destroy(ds)
