@@ -4,11 +4,17 @@ local gc = require("getColor")
 
 local figure = {}
 
+
 function figure.new(cs)
     local fig = {x = 0, y = 0, width = 50, height = 50,
-                line_width = 1, color_default = 'ffffff', opacity = 1.
-                }
+    line_width = 1, color_default = 'ffffff', opacity = 1.
+}
 
+    local function anglePosition(start_angle, current_angle)
+        local pos = current_angle + start_angle
+        return ( ( pos * (2 * math.pi / 360) ) - (math.pi / 2) )
+    end
+    
     function fig:path()
         local ds = cairo_xlib_surface_create(conky_window.display, conky_window.drawable, conky_window.visual, conky_window.width, conky_window.height)
         local dr = cairo_create(ds)
@@ -159,21 +165,6 @@ function figure.new(cs)
 
         cairo_destroy(ldr)
         cairo_surface_destroy(ds) 
-    end
-
-    function fig:drawSector( ... )
-        local xc, yc, rd, ang1, ang2 = {...}
-
-        cairo_set_line_width (ldr, self.line_width)
-        cairo_set_source_rgba (ldr, gc.hex(self.color_default, self.opacity))
-
-        cairo_arc(ldr, xc, yc, rd, ang1, ang2) 
-        cairo_arc_negative(dr, xc, yc, 1*rd/2, ang2, ang1)
-        -- cairo_fill(dr)
-        cairo_close_path(ldr) 
-        cairo_stroke(ldr)
-        cairo_new_sub_path(ldr)
-
     end
 
     return fig

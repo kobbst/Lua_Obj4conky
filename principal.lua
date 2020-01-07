@@ -7,6 +7,7 @@ local fe = require("figures")
 
 local th = require("topHexagon")
 local hx = require("hexagon")
+local sc = require("sector")
 
 -------------------------------------------------------------------------------
 --                                                                         MAIN
@@ -23,6 +24,10 @@ function conky_main()
     local fe4 = fe.new()
     local th1 = th.new(50)
     local hx1 = hx.new(100)
+    
+    local sc1 = sc.new()
+    sc1:drawSector(100, 150, 50, 10, 40)
+    sc1:test01(100, 150, 50, 10, 40)
     
     local x, y = hx1:getCenter()
     -- print (x .. " : " .. y)
@@ -90,6 +95,8 @@ function conky_main()
     -- fe4:circulo(45 ,250 , 10, 50)
     -- fe4:circulo(55 ,250 , 10, 50, 2, "aa000f",0.5)
     -- fe4:retangulo(15 ,250 , 100, 50,1,"220000",0.3)
+
+
     -------------------------------------------------------------------------------
     --                                                            angle_to_position
     -- convert degree to rad and rotate (0 degree is top/north)
@@ -102,37 +109,53 @@ function conky_main()
     local function test01( ... )
         local i, k, j = 0,10,3.2
         -- local kxc, kyc, rd, ang1, ang2 = th1:getPoints().p1.x, th1:getPoints().p1.y, 25., 0., (math.pi/3)
-        local kxc, kyc, rd, ang1, ang2 = 80, 250, 75., math.pi + i * math.pi/k, -3 * math.pi / j  + i * math.pi/k
+        local kxc, kyc, rd, ang1, ang2 = 80, 250, 50., math.pi + i * math.pi/k, -3 * math.pi / j  + i * math.pi/k
         -- print(k)
-        local lgrau = math.pi/180
-        cairo_set_line_width(dr, 2)
+        local lgrau = math.pi/180; local ag1 = 180
+        cairo_set_line_width(dr, 1)
         cairo_set_source_rgba(dr, 1,1,1, 0.3)
         -- ang1 =  2 * math.pi; ang2 = math.pi - math.pi/6 
-        ang1 =  angle_to_position(30,0); ang2 = angle_to_position(100,ang1)
-        cairo_arc(dr, kxc, kyc, rd, ang1, ang2) ; cairo_arc_negative(dr, kxc, kyc, 1*rd/2, ang2, ang1);cairo_close_path(dr); cairo_new_sub_path(dr)
-        -- ang1, ang2 = ang2 +0.05 , ang2 + (ang2 - ang1)
-        -- ang1, ang2 = ang2 + 4 * lgrau , math.pi/6 - ang1
-        -- cairo_arc(dr, kxc, kyc, rd, ang1, ang2) ; cairo_arc_negative(dr, kxc, kyc, 1*rd/2, ang2, ang1);cairo_close_path(dr); cairo_new_sub_path(dr)
-        -- i = i + 1 ; ang1, ang2 = math.pi + i * math.pi/k, -3 * math.pi / j  + i * math.pi/k
-        -- cairo_arc(dr, kxc, kyc, rd, ang1, ang2) ; cairo_arc_negative(dr, kxc, kyc, 1*rd/2, ang2, ang1);cairo_close_path(dr); cairo_new_sub_path(dr)
-        -- i = i + 1 ; ang1, ang2 = math.pi + i * math.pi/k, -3 * math.pi / j  + i * math.pi/k
-        -- cairo_arc(dr, kxc, kyc, rd, ang1, ang2) ; cairo_arc_negative(dr, kxc, kyc, 1*rd/2, ang2, ang1);cairo_close_path(dr); cairo_new_sub_path(dr)
-        -- i = i + 1 ; ang1, ang2 = math.pi + i * math.pi/k, -3 * math.pi / j  + i * math.pi/k
-        -- cairo_arc(dr, kxc, kyc, rd, ang1, ang2) ; cairo_arc_negative(dr, kxc, kyc, 1*rd/2, ang2, ang1);cairo_close_path(dr); cairo_new_sub_path(dr)
-        -- i = i + 1 ; ang1, ang2 = math.pi + i * math.pi/k, -3 * math.pi / j  + i * math.pi/k
-        -- cairo_arc(dr, kxc, kyc, rd, ang1, ang2) ; cairo_arc_negative(dr, kxc, kyc, 1*rd/2, ang2, ang1);cairo_close_path(dr); cairo_new_sub_path(dr)
-        -- i = i + 1 ; ang1, ang2 = math.pi + i * math.pi/k, -3 * math.pi / j  + i * math.pi/k
-        -- cairo_arc(dr, kxc, kyc, rd, ang1, ang2) ; cairo_arc_negative(dr, kxc, kyc, 1*rd/2, ang2, ang1);cairo_close_path(dr); cairo_new_sub_path(dr)
-        -- i = i + 1 ; ang1, ang2 = math.pi + i * math.pi/k, -3 * math.pi / j  + i * math.pi/k
+        local ai, arco, desl = 0, 15, 3
+        
+        for i=1,10 do
+            ang1 =  angle_to_position(ag1,ai); ang2 = angle_to_position(ag1,ai + arco); ai = ai + arco + desl
+            cairo_arc(dr, kxc, kyc, rd, ang1, ang2) ; cairo_arc_negative(dr, kxc, kyc, 3*rd/2, ang2, ang1);cairo_close_path(dr); cairo_new_sub_path(dr)
+        end
+
+            -- ang1 =  angle_to_position(ag1,35); ang2 = angle_to_position(ag1,60)
+            -- cairo_arc(dr, kxc, kyc, rd, ang1, ang2) ; cairo_arc_negative(dr, kxc, kyc, 3*rd/2, ang2, ang1);cairo_close_path(dr); cairo_new_sub_path(dr)
+            -- ang1 =  angle_to_position(ag1,65); ang2 = angle_to_position(ag1,90)
+            -- cairo_arc(dr, kxc, kyc, rd, ang1, ang2) ; cairo_arc_negative(dr, kxc, kyc, 3*rd/2, ang2, ang1);cairo_close_path(dr); cairo_new_sub_path(dr)
+           
+
+
+
+        -- ang1 =  angle_to_position(ag1,0 + 5); ang2 = angle_to_position(ag1,i + 5 * lgrau)
+        -- cairo_arc(dr, kxc, kyc, rd, ang1, ang2) ; cairo_arc_negative(dr, kxc, kyc, 3*rd/2, ang2, ang1);cairo_close_path(dr); cairo_new_sub_path(dr)
+        -- ang1 =  ang2 + 5 * lgrau; ang2 = angle_to_position(ag1,2*i + 5 * lgrau)
+        -- cairo_arc(dr, kxc, kyc, rd, ang1, ang2) ; cairo_arc_negative(dr, kxc, kyc, 3*rd/2, ang2, ang1);cairo_close_path(dr); cairo_new_sub_path(dr)
+        -- ang1 =  ang2 + 5 * lgrau; ang2 = angle_to_position(ag1,3*i + 5 * lgrau)
+        -- cairo_arc(dr, kxc, kyc, rd, ang1, ang2) ; cairo_arc_negative(dr, kxc, kyc, 3*rd/2, ang2, ang1);cairo_close_path(dr); cairo_new_sub_path(dr)
+        -- ang1 =  ang2 + 5 * lgrau; ang2 = angle_to_position(ag1,4*i + 5 * lgrau)
+        -- cairo_arc(dr, kxc, kyc, rd, ang1, ang2) ; cairo_arc_negative(dr, kxc, kyc, 3*rd/2, ang2, ang1);cairo_close_path(dr); cairo_new_sub_path(dr)
+        -- ang1 =  ang2 + 5 * lgrau; ang2 = angle_to_position(ag1,5*i + 5 * lgrau)
+        -- cairo_arc(dr, kxc, kyc, rd, ang1, ang2) ; cairo_arc_negative(dr, kxc, kyc, 3*rd/2, ang2, ang1);cairo_close_path(dr); cairo_new_sub_path(dr)
+        -- ang1 =  ang2 + 5 * lgrau; ang2 = angle_to_position(ag1,6*i + 5 * lgrau)
+        -- cairo_arc(dr, kxc, kyc, rd, ang1, ang2) ; cairo_arc_negative(dr, kxc, kyc, 3*rd/2, ang2, ang1);cairo_close_path(dr); cairo_new_sub_path(dr)
+        -- ang1 =  ang2 + 5 * lgrau; ang2 = angle_to_position(ag1,7*i + 5 * lgrau)
+        -- cairo_arc(dr, kxc, kyc, rd, ang1, ang2) ; cairo_arc_negative(dr, kxc, kyc, 3*rd/2, ang2, ang1);cairo_close_path(dr); cairo_new_sub_path(dr)
+        -- ang1 =  ang2 + 5 * lgrau; ang2 = angle_to_position(ag1,8*i + 5 * lgrau)
+        -- cairo_arc(dr, kxc, kyc, rd, ang1, ang2) ; cairo_arc_negative(dr, kxc, kyc, 3*rd/2, ang2, ang1);cairo_close_path(dr); cairo_new_sub_path(dr)
+
         
         cairo_stroke(dr)
         cairo_new_sub_path(dr)
         
-        cairo_arc(dr, th1:getPoints().p2.x, th1:getPoints().p2.y, th1:getElement().d, ang1,ang2);-- cairo_new_sub_path(dr)
-        cairo_arc_negative(dr, th1:getPoints().p2.x, th1:getPoints().p2.y, th1:getElement().d/2, ang2, ang1);-- cairo_new_sub_path(dr)
-        cairo_fill(dr)
-        cairo_close_path(dr); cairo_new_sub_path(dr)
-        cairo_stroke(dr)
+        -- cairo_arc(dr, th1:getPoints().p2.x, th1:getPoints().p2.y, th1:getElement().d, ang1,ang2);-- cairo_new_sub_path(dr)
+        -- cairo_arc_negative(dr, th1:getPoints().p2.x, th1:getPoints().p2.y, th1:getElement().d/2, ang2, ang1);-- cairo_new_sub_path(dr)
+        -- cairo_fill(dr)
+        -- cairo_close_path(dr); cairo_new_sub_path(dr)
+        -- cairo_stroke(dr)
     end
     
     local function draw_rounded(cr, a, b, c, d, radius)
@@ -163,7 +186,7 @@ function conky_main()
         draw_rounded(dr, 5, 75, 10, 45, 5)
     end
     roudRec()
-    test01()
+    -- test01()
 
 
     cairo_surface_destroy(ds)

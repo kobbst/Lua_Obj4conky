@@ -24,6 +24,11 @@ local function points( p1, p2, a, b )
 	return p2
 end
 
+local function anglePosition(start_angle, current_angle)
+	local pos = current_angle + start_angle
+	return ( ( pos * (2 * math.pi / 360) ) - (math.pi / 2) )
+end
+
 -- local p1, p2 = {x=1,y=2}, {x=3,y=4}
 
 -- points({x=1,y=2}, {x=3,y=4})
@@ -32,6 +37,6 @@ end
 -- print(rotPoint(10, 0, 0, 0, 0) )
 
 R.rotPoint = rotPoint
-
+R.anglePosition = anglePosition
 
 return R
