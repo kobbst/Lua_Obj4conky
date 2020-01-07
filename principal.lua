@@ -32,39 +32,10 @@ function conky_main()
     -- print(th1:getAllvar:d())
     th1:draw(25, 350, 2, "ffffff", 0.3)
     -- print(th1:getPoints().p1.y)
-    local i, k, j = 0,10,3.2
-    -- local kxc, kyc, rd, ang1, ang2 = th1:getPoints().p1.x, th1:getPoints().p1.y, 25., 0., (math.pi/3)
-    local kxc, kyc, rd, ang1, ang2 = 80, 250, 75., math.pi + i * math.pi/k, -3 * math.pi / j  + i * math.pi/k
-    -- print(k)
-    cairo_set_line_width(dr, 2)
-    cairo_set_source_rgba(dr, 1,1,1, 0.3)
-
-    cairo_arc(dr, kxc, kyc, rd, ang1, ang2) ; cairo_arc_negative(dr, kxc, kyc, 1*rd/2, ang2, ang1);cairo_close_path(dr); cairo_new_sub_path(dr)
-    ang1, ang2 = ang2 +0.05 , ang2 + (ang2 - ang1)
-    cairo_arc(dr, kxc, kyc, rd, ang1, ang2) ; cairo_arc_negative(dr, kxc, kyc, 1*rd/2, ang2, ang1);cairo_close_path(dr); cairo_new_sub_path(dr)
-    -- i = i + 1 ; ang1, ang2 = math.pi + i * math.pi/k, -3 * math.pi / j  + i * math.pi/k
-    -- cairo_arc(dr, kxc, kyc, rd, ang1, ang2) ; cairo_arc_negative(dr, kxc, kyc, 1*rd/2, ang2, ang1);cairo_close_path(dr); cairo_new_sub_path(dr)
-    -- i = i + 1 ; ang1, ang2 = math.pi + i * math.pi/k, -3 * math.pi / j  + i * math.pi/k
-    -- cairo_arc(dr, kxc, kyc, rd, ang1, ang2) ; cairo_arc_negative(dr, kxc, kyc, 1*rd/2, ang2, ang1);cairo_close_path(dr); cairo_new_sub_path(dr)
-    -- i = i + 1 ; ang1, ang2 = math.pi + i * math.pi/k, -3 * math.pi / j  + i * math.pi/k
-    -- cairo_arc(dr, kxc, kyc, rd, ang1, ang2) ; cairo_arc_negative(dr, kxc, kyc, 1*rd/2, ang2, ang1);cairo_close_path(dr); cairo_new_sub_path(dr)
-    -- i = i + 1 ; ang1, ang2 = math.pi + i * math.pi/k, -3 * math.pi / j  + i * math.pi/k
-    -- cairo_arc(dr, kxc, kyc, rd, ang1, ang2) ; cairo_arc_negative(dr, kxc, kyc, 1*rd/2, ang2, ang1);cairo_close_path(dr); cairo_new_sub_path(dr)
-    -- i = i + 1 ; ang1, ang2 = math.pi + i * math.pi/k, -3 * math.pi / j  + i * math.pi/k
-    -- cairo_arc(dr, kxc, kyc, rd, ang1, ang2) ; cairo_arc_negative(dr, kxc, kyc, 1*rd/2, ang2, ang1);cairo_close_path(dr); cairo_new_sub_path(dr)
-    -- i = i + 1 ; ang1, ang2 = math.pi + i * math.pi/k, -3 * math.pi / j  + i * math.pi/k
-
-    cairo_stroke(dr)
-    cairo_new_sub_path(dr)
-
-    cairo_arc(dr, th1:getPoints().p2.x, th1:getPoints().p2.y, th1:getElement().d, ang1,ang2);-- cairo_new_sub_path(dr)
-    cairo_arc_negative(dr, th1:getPoints().p2.x, th1:getPoints().p2.y, th1:getElement().d/2, ang2, ang1);-- cairo_new_sub_path(dr)
-    cairo_fill(dr)
-    cairo_close_path(dr); cairo_new_sub_path(dr)
-    cairo_stroke(dr)
-
-
-
+    
+    
+    
+    
     th1:draw(75, 350, 4, "ffff00", 0.5)
     cairo_arc(dr, th1:getPoints().p0.x, th1:getPoints().p0.y, 3., 0,2*math.pi); cairo_new_sub_path(dr)
     
@@ -104,23 +75,66 @@ function conky_main()
     
     -- fe1:drawLine({x=120,y=70},{x=140,y=60},3,"ffffaa",0.4)
     
-
+    
     -- fe1:retangulo(25, 50 ,25 ,10)
     -- fe2:retangulo(25, 75 ,-30 ,10)
     -- fe1:circulo(70, 20 ,100 ,100)
     -- fe3:circulo(20, 150 ,110 ,110)
     -- fe3:circuloGradiente(15 ,250 , 100, 50)
     -- fe3:imagem("/home/kobb/Imagens/wwoman01.png",0, 410,100,100)
-
-
+    
+    
     -- fe4:circulo(15 ,250 , 10, 50)
     -- fe4:circulo(25 ,250 , 10, 50)
     -- fe4:circulo(35 ,250 , 10, 50)
     -- fe4:circulo(45 ,250 , 10, 50)
     -- fe4:circulo(55 ,250 , 10, 50, 2, "aa000f",0.5)
     -- fe4:retangulo(15 ,250 , 100, 50,1,"220000",0.3)
+    -------------------------------------------------------------------------------
+    --                                                            angle_to_position
+    -- convert degree to rad and rotate (0 degree is top/north)
+    --
+    local function angle_to_position(start_angle, current_angle)
+        local pos = current_angle + start_angle
+        return ( ( pos * (2 * math.pi / 360) ) - (math.pi / 2) )
+    end
 
-
+    local function test01( ... )
+        local i, k, j = 0,10,3.2
+        -- local kxc, kyc, rd, ang1, ang2 = th1:getPoints().p1.x, th1:getPoints().p1.y, 25., 0., (math.pi/3)
+        local kxc, kyc, rd, ang1, ang2 = 80, 250, 75., math.pi + i * math.pi/k, -3 * math.pi / j  + i * math.pi/k
+        -- print(k)
+        local lgrau = math.pi/180
+        cairo_set_line_width(dr, 2)
+        cairo_set_source_rgba(dr, 1,1,1, 0.3)
+        -- ang1 =  2 * math.pi; ang2 = math.pi - math.pi/6 
+        ang1 =  angle_to_position(30,0); ang2 = angle_to_position(100,ang1)
+        cairo_arc(dr, kxc, kyc, rd, ang1, ang2) ; cairo_arc_negative(dr, kxc, kyc, 1*rd/2, ang2, ang1);cairo_close_path(dr); cairo_new_sub_path(dr)
+        -- ang1, ang2 = ang2 +0.05 , ang2 + (ang2 - ang1)
+        -- ang1, ang2 = ang2 + 4 * lgrau , math.pi/6 - ang1
+        -- cairo_arc(dr, kxc, kyc, rd, ang1, ang2) ; cairo_arc_negative(dr, kxc, kyc, 1*rd/2, ang2, ang1);cairo_close_path(dr); cairo_new_sub_path(dr)
+        -- i = i + 1 ; ang1, ang2 = math.pi + i * math.pi/k, -3 * math.pi / j  + i * math.pi/k
+        -- cairo_arc(dr, kxc, kyc, rd, ang1, ang2) ; cairo_arc_negative(dr, kxc, kyc, 1*rd/2, ang2, ang1);cairo_close_path(dr); cairo_new_sub_path(dr)
+        -- i = i + 1 ; ang1, ang2 = math.pi + i * math.pi/k, -3 * math.pi / j  + i * math.pi/k
+        -- cairo_arc(dr, kxc, kyc, rd, ang1, ang2) ; cairo_arc_negative(dr, kxc, kyc, 1*rd/2, ang2, ang1);cairo_close_path(dr); cairo_new_sub_path(dr)
+        -- i = i + 1 ; ang1, ang2 = math.pi + i * math.pi/k, -3 * math.pi / j  + i * math.pi/k
+        -- cairo_arc(dr, kxc, kyc, rd, ang1, ang2) ; cairo_arc_negative(dr, kxc, kyc, 1*rd/2, ang2, ang1);cairo_close_path(dr); cairo_new_sub_path(dr)
+        -- i = i + 1 ; ang1, ang2 = math.pi + i * math.pi/k, -3 * math.pi / j  + i * math.pi/k
+        -- cairo_arc(dr, kxc, kyc, rd, ang1, ang2) ; cairo_arc_negative(dr, kxc, kyc, 1*rd/2, ang2, ang1);cairo_close_path(dr); cairo_new_sub_path(dr)
+        -- i = i + 1 ; ang1, ang2 = math.pi + i * math.pi/k, -3 * math.pi / j  + i * math.pi/k
+        -- cairo_arc(dr, kxc, kyc, rd, ang1, ang2) ; cairo_arc_negative(dr, kxc, kyc, 1*rd/2, ang2, ang1);cairo_close_path(dr); cairo_new_sub_path(dr)
+        -- i = i + 1 ; ang1, ang2 = math.pi + i * math.pi/k, -3 * math.pi / j  + i * math.pi/k
+        
+        cairo_stroke(dr)
+        cairo_new_sub_path(dr)
+        
+        cairo_arc(dr, th1:getPoints().p2.x, th1:getPoints().p2.y, th1:getElement().d, ang1,ang2);-- cairo_new_sub_path(dr)
+        cairo_arc_negative(dr, th1:getPoints().p2.x, th1:getPoints().p2.y, th1:getElement().d/2, ang2, ang1);-- cairo_new_sub_path(dr)
+        cairo_fill(dr)
+        cairo_close_path(dr); cairo_new_sub_path(dr)
+        cairo_stroke(dr)
+    end
+    
     local function draw_rounded(cr, a, b, c, d, radius)
         -- body
         --""" draws rectangles with rounded (circular arc) corners """
@@ -149,6 +163,7 @@ function conky_main()
         draw_rounded(dr, 5, 75, 10, 45, 5)
     end
     roudRec()
+    test01()
 
 
     cairo_surface_destroy(ds)
