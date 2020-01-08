@@ -4,7 +4,7 @@ local ax = require("auxFunctions")
 local sector = {}
 
 
-function sector.new(xc, yc)
+function sector.new(xc, yc, rd, ang1, ang2, ang_ini)
     local sec = {x = (xc or 0), y = (yc or 0), width = 50, height = 50,
     line_width = 2, color_default = 'ffffff', opacity = 1.
     }
