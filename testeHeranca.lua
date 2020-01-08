@@ -7,7 +7,7 @@ function Shape:new (o,side)
   setmetatable(o, self)
   self.__index = self
   side = side or 0
-  self.area = side*side;
+  self.area = side*side
   return o
 end
 -- 基础类方法 printArea
@@ -15,8 +15,8 @@ function Shape:printArea ()
   print("A área é",self.area)
 end
 
--- 创建对象
-myshape = Shape:new(nil,10)
+-- 创建对象  ===========================
+myshape = Shape:new(nil,5)
 myshape:printArea()
 
 Square = Shape:new()
@@ -33,8 +33,8 @@ function Square:printArea ()
   print("A área quadrada é ",self.area)
 end
 
--- 创建对象
-mysquare = Square:new(nil,10)
+-- 创建对象  ===================
+mysquare = Square:new(nil,15)
 mysquare:printArea()
 
 Rectangle = Shape:new()
@@ -51,15 +51,26 @@ end
 function Rectangle:printArea (...)
 
   local arg = {...}
-  print(#arg)
-  -- print("A área do retângulo é ",self.area)
+  -- print(#arg)
+  print("A área do retângulo é ",self.area)
 end
 
-local p1 = {x=2,y=3}
-local p2 = {x=2,y=3}
-local p3 = {x= p1.x + p2.x, y= p1.y + p2.y}
-print (p3.x .. ":" .. p3.y)
+-- local p1 = {x=2,y=3}
+-- local p2 = {x=2,y=3}
+-- local p3 = {x= p1.x + p2.x, y= p1.y + p2.y}
+-- print (p3.x .. ":" .. p3.y)
 
 -- 创建对象
+myrectangle = Rectangle:new(nil,10,20)
+myrectangle:printArea()
+
+print("====-=-=-=-=-=-=-=-=-=-=-=-=-===========")
+
+-- myshape = Shape:new(nil,5)
+myshape:printArea()
+
+-- mysquare = Square:new(nil,15)
+mysquare:printArea()
+
 -- myrectangle = Rectangle:new(nil,10,20)
--- myrectangle:printArea("a",{x=2, y=3})
+myrectangle:printArea()

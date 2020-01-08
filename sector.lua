@@ -4,11 +4,22 @@ local ax = require("auxFunctions")
 local sector = {}
 
 
-function sector.new(xc, yc, rd, ang1, ang2, ang_ini)
-    local sec = {x = (xc or 0), y = (yc or 0), width = 50, height = 50,
-    line_width = 2, color_default = 'ffffff', opacity = 1.
+-- function sector.new(xc, yc, rd, ang1, ang2, ang_ini)
+function sector.new(...)
+    local op = { ... }
+    local sec = {
+        x = (op.xc or op[1] or 0), y = (op.yc or op[2] or 0), width = 50, height = 50,
+        rd = (op.rd or op[3] or 1), 
+        ang1 = (op.ang1 or op[4] or 0), ang2 = (op.ang2 or op [5] or 90), ang_ini = (op.ang_ini or op.[6] or 180) ,
+        line_width = 2, color_default = 'ffffff', opacity = 1.
     }
-
+    function sec:setOptions( ... ) -- line = ln , color = cl, opacity = op, fill_color = fl
+        local op = {...}
+        self.line_width = (op.ln or op[1] or self.line_width)
+        self.color_default = (op.cl or op[2] or self.color_default)
+        self.opacity = (op.op or op[3] or self.opacity)
+        
+    end
     function sec:drawSector( xc, yc, rd, ang1, ang2 )
         local ldr = cairo_create(ds)
         
