@@ -26,6 +26,7 @@ function conky_main()
     local hx1 = hx.new(100)
     
     local sc1 = sc.new()
+    sc1:setOptions(3,"0000ff", 0.5)
     sc1:drawSector(100, 150, 50, 10, 40)
     sc1:test01(100, 150, 50, 10, 40)
     

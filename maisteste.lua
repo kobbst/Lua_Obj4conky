@@ -1,8 +1,5 @@
 local class = require('middleclass')
 
-
-local class = require 'middleclass'
-
 Person = class('Person') --this is the same as class('Person', Object) or Object:subclass('Person')
 function Person:initialize(name)
   self.name = name

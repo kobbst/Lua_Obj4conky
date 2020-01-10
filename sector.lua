@@ -10,7 +10,9 @@ function sector.new(...)
     local sec = {
         x = (op.xc or op[1] or 0), y = (op.yc or op[2] or 0), width = 50, height = 50,
         rd = (op.rd or op[3] or 1), 
-        ang1 = (op.ang1 or op[4] or 0), ang2 = (op.ang2 or op [5] or 90), ang_ini = (op.ang_ini or op.[6] or 180) ,
+        ang1 = (op.ang1 or op[4] or 0), 
+        ang2 = (op.ang2 or op[5] or 90), 
+        ang_ini = (op.ang_ini or op[6] or 180) ,
         line_width = 2, color_default = 'ffffff', opacity = 1.
     }
     function sec:setOptions( ... ) -- line = ln , color = cl, opacity = op, fill_color = fl
