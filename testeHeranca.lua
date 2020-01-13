@@ -1,11 +1,29 @@
 
+
+local cl = require("maisteste")
+local rt = require("rectangle")
+
+local v1 = rt.Rectangle:new()
+-- local v2 = roundedRectangle({x=80,y=280})
+local v2 = rt.roundedRectangle:new(20,288)
+v1:xy(50, 160)
+-- v2:xy(60, 250)
+
+print(v1:xy())
+print(v2:xy())
+print(v2:radiusEdge())
+print(v1:xy())
+
+
+
+--[[
 -- Meta class
 Shape = {area = 0}
 -- 基础类方法 new
 function Shape:new (o,side)
   o = o or {}
   setmetatable(o, self)
-  self.__index = self
+  self.__index = selfPerson
   side = side or 0
   self.area = side*side
   return o
@@ -82,3 +100,22 @@ print("====-=-=-=-=-=-=-=-=-=-=-=-=-===========")
 myshape:printArea()
 mysquare:printArea()
 myrectangle:printArea()
+
+
+
+local p1 = cl.AgedPerson:new('Billy the Kid', 13) -- this is equivalent to AgedPerson('Billy the Kid', 13) - the :new part is implicit
+local p2 = cl.AgedPerson:new('Luke Skywalker', 21)
+p1:speak()
+p2:speak()
+p1:grow(22)
+
+
+
+
+
+
+
+
+
+
+]]

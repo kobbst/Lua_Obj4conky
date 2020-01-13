@@ -1,4 +1,7 @@
+
 local class = require('middleclass')
+
+local R = {}
 
 Person = class('Person') --this is the same as class('Person', Object) or Object:subclass('Person')
 function Person:initialize(name)
@@ -27,12 +30,16 @@ function AgedPerson:speak()
   end
 end
 
-local p1 = AgedPerson:new('Billy the Kid', 13) -- this is equivalent to AgedPerson('Billy the Kid', 13) - the :new part is implicit
-local p2 = AgedPerson:new('Luke Skywalker', 21)
-p1:speak()
-p2:speak()
-p1:grow(22)
+-- local p1 = AgedPerson:new('Billy the Kid', 13) -- this is equivalent to AgedPerson('Billy the Kid', 13) - the :new part is implicit
+-- local p2 = AgedPerson:new('Luke Skywalker', 21)
+-- p1:speak()
+-- p2:speak()
+-- p1:grow(22)
 
+R.Person = Person
+R.AgedPerson = AgedPerson
+
+return R
 
 --[[
 

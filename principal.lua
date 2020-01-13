@@ -8,6 +8,8 @@ local fe = require("figures")
 local th = require("topHexagon")
 local hx = require("hexagon")
 local sc = require("sector")
+local rt = require("rectangle")
+
 
 -------------------------------------------------------------------------------
 --                                                                         MAIN
@@ -39,7 +41,14 @@ function conky_main()
     th1:draw(25, 350, 2, "ffffff", 0.3)
     -- print(th1:getPoints().p1.y)
     
+    local v2 = rt.roundedRectangle:new(30,350, 400, 150)
+    local v3 = rt.roundedRectangle:new(5, 405, 190, 150)
+    v2:draw()
+    -- v3:drawRounded_2(); 
+    v3:radiusEdge(20);
+    v3:opacity(0.2)
     
+    v3:drawRounded_2()
     
     
     th1:draw(75, 350, 4, "ffff00", 0.5)
@@ -219,7 +228,6 @@ function conky_main()
         cairo_paint(dr);
     end
 
-
     local function gradien2( ... )
         -- body
         alpha=0.4;
@@ -237,22 +245,21 @@ function conky_main()
 
     end
 
-    local function function_name( ... )
-        -- body
-        int i, j; 
-        -- cairo_pattern_t *radpat, *linpat; 
+    local function grdn1( ... )
+
         radpat = cairo_pattern_create_radial (0.25, 0.25, 0.1, 0.5, 0.5, 0.5); 
         cairo_pattern_add_color_stop_rgb (radpat, 0, 1.0, 0.8, 0.8); 
         cairo_pattern_add_color_stop_rgb (radpat, 1, 0.9, 0.0, 0.0); 
-        for i=1,  i<10, 1 do 
-            for j=1, j<10, 1 do
-                 cairo_rectangle (dr, i/10.0 - 0.04, j/10.0 - 0.04, 0.08, 0.08); 
+        for i=1, 10, 1 do 
+            for j=1, 10, 1 do
+                -- cairo_rectangle (dr, i/10.0 - 0.04, j/10.0 - 0.04, 0.08, 0.08); 
+                cairo_rectangle (dr, 2 * i + 15 , 2 * j + 10, 10, 10); 
             end
         end
             
             cairo_set_source (dr, radpat); 
             cairo_fill (dr); 
-            linpat = cairo_pattern_dreate_linear (0.25, 0.35, 0.75, 0.65); 
+            linpat = cairo_pattern_create_linear (0.25, 0.35, 0.75, 0.65); 
             cairo_pattern_add_color_stop_rgba (linpat, 0.00, 1, 1, 1, 0); 
             cairo_pattern_add_color_stop_rgba (linpat, 0.25, 0, 1, 0, 0.5); 
             cairo_pattern_add_color_stop_rgba (linpat, 0.50, 1, 1, 1, 0); 
@@ -261,8 +268,13 @@ function conky_main()
             cairo_rectangle (dr, 0.0, 0.0, 1, 1); 
             cairo_set_source (dr, linpat); 
             cairo_fill (dr); 
+            cairo_paint(dr);
+
     end
     -- gradien2()
+
+    -- grdn1()
+
 
     cairo_surface_destroy(ds)
     cairo_destroy(dr)
