@@ -236,6 +236,32 @@ function conky_main()
         
 
     end
+
+    local function function_name( ... )
+        -- body
+        int i, j; 
+        -- cairo_pattern_t *radpat, *linpat; 
+        radpat = cairo_pattern_create_radial (0.25, 0.25, 0.1, 0.5, 0.5, 0.5); 
+        cairo_pattern_add_color_stop_rgb (radpat, 0, 1.0, 0.8, 0.8); 
+        cairo_pattern_add_color_stop_rgb (radpat, 1, 0.9, 0.0, 0.0); 
+        for i=1,  i<10, 1 do 
+            for j=1, j<10, 1 do
+                 cairo_rectangle (dr, i/10.0 - 0.04, j/10.0 - 0.04, 0.08, 0.08); 
+            end
+        end
+            
+            cairo_set_source (dr, radpat); 
+            cairo_fill (dr); 
+            linpat = cairo_pattern_dreate_linear (0.25, 0.35, 0.75, 0.65); 
+            cairo_pattern_add_color_stop_rgba (linpat, 0.00, 1, 1, 1, 0); 
+            cairo_pattern_add_color_stop_rgba (linpat, 0.25, 0, 1, 0, 0.5); 
+            cairo_pattern_add_color_stop_rgba (linpat, 0.50, 1, 1, 1, 0); 
+            cairo_pattern_add_color_stop_rgba (linpat, 0.75, 0, 0, 1, 0.5); 
+            cairo_pattern_add_color_stop_rgba (linpat, 1.00, 1, 1, 1, 0); 
+            cairo_rectangle (dr, 0.0, 0.0, 1, 1); 
+            cairo_set_source (dr, linpat); 
+            cairo_fill (dr); 
+    end
     -- gradien2()
 
     cairo_surface_destroy(ds)
