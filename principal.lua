@@ -188,7 +188,55 @@ function conky_main()
     end
     roudRec()
     -- test01()
+    local function gradiente( ... )
+        -- body
+        npad = cairo_pattern_create_linear();
 
+        -- / * Adicione um patch Coons * /
+        cairo_mesh_pattern_begin_patch ( npad );
+        cairo_mesh_pattern_move_to ( npad , 0 , 0 );
+        cairo_mesh_pattern_curve_to ( npad , 30 , - 30 , 60 , 30 , 100 , 0 );
+        cairo_mesh_pattern_curve_to ( npad , 60 , 30 , 130 , 60 , 100 , 100 );
+        cairo_mesh_pattern_curve_to ( npad , 60 , 70 , 30 , 130 , 0 , 100 );
+        cairo_mesh_pattern_curve_to ( npad , 30 , 70 , - 30 , 30 , 0 , 0 );
+        cairo_mesh_pattern_set_corner_color_rgb ( npad , 0 , 1 , 0 , 0 );
+        cairo_mesh_pattern_set_corner_color_rgb ( npad , 1 , 0 , 1 , 0 );
+        cairo_mesh_pattern_set_corner_color_rgb ( npad , 2 , 0 , 0 , 1 );
+        cairo_mesh_pattern_set_corner_color_rgb ( npad , 3 , 1 , 1 , 0 );
+        cairo_mesh_pattern_end_patch ( npad );
+    
+        -- / * Adicione um triângulo sombreado em Gouraud * /
+        cairo_mesh_pattern_begin_patch ( npad )
+        cairo_mesh_pattern_move_to ( npad , 100 , 100 );
+        cairo_mesh_pattern_line_to ( npad , 130 , 130 );
+        cairo_mesh_pattern_line_to ( npad , 130 , 70 );
+        cairo_mesh_pattern_set_corner_color_rgb ( npad , 0 , 1 , 0 , 0 );
+        cairo_mesh_pattern_set_corner_color_rgb ( npad , 1 , 0 , 1 , 0 );
+        cairo_mesh_pattern_set_corner_color_rgb ( npad , 2 , 0 , 0 , 1 );
+        cairo_mesh_pattern_end_patch ( npad ) 
+
+        cairo_set_source (dr, npat);
+        cairo_paint(dr);
+    end
+
+
+    local function gradien2( ... )
+        -- body
+        alpha=0.4;
+        spat = cairo_pattern_create_radial(100, 200, 200,  0, 560, 150);
+        -- spat = cairo_pattern_create_linear(0, 20, 50, 200);
+        cairo_pattern_add_color_stop_rgba(spat, 0,  0, 0, 0.8, alpha);
+        cairo_pattern_add_color_stop_rgba(spat, 0.25,  1, 1, 0, alpha);
+        cairo_pattern_add_color_stop_rgba(spat, 0.5,  0.9, 0.0, 0.0, alpha);
+        cairo_pattern_add_color_stop_rgba(spat, 0.75,  0.8, 0.12, 0.56, alpha);
+        cairo_pattern_add_color_stop_rgba(spat, 1,  0, 0, 0, alpha);
+        
+        cairo_set_source (dr, spat);
+        cairo_paint(dr);
+        
+
+    end
+    -- gradien2()
 
     cairo_surface_destroy(ds)
     cairo_destroy(dr)

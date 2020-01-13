@@ -14,6 +14,10 @@ function AgedPerson:initialize(name, age)
   Person.initialize(self, name) -- this calls the parent's constructor (Person.initialize) on self
   self.age = age
 end
+function AgedPerson:grow( age )
+  self.age = age
+  self:speak()
+end
 function AgedPerson:speak()
   Person.speak(self) -- prints "Hi, I am xx."
   if(self.age < AgedPerson.ADULT_AGE) then --accessing a class variable from an instance method
@@ -27,7 +31,7 @@ local p1 = AgedPerson:new('Billy the Kid', 13) -- this is equivalent to AgedPers
 local p2 = AgedPerson:new('Luke Skywalker', 21)
 p1:speak()
 p2:speak()
-p1:speak()
+p1:grow(22)
 
 
 --[[
