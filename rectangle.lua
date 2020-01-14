@@ -38,7 +38,7 @@ function Rectangle:radiusEdge(radius) -- setter line_width
     if radius then self.rd = radius end
     return self.rd
 end
-function Rectangle:Width(width) -- setter line_width
+function Rectangle:width(width) -- setter line_width
     if width then self.width = width end
     return self.width
 end

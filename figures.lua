@@ -2,10 +2,10 @@
 
 local gc = require("getColor")
 
-local figure = {}
+local figura = {}
 
 
-function figure.new(cs)
+function figura.new(cs)
     local fig = {x = 0, y = 0, width = 50, height = 50,
     line_width = 1, color_default = 'ffffff', opacity = 1.
 }
@@ -170,7 +170,7 @@ function figure.new(cs)
     return fig
 end
 
-return figure
+return figura
 
 -- fig.path = path
 -- fig.square = square
