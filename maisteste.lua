@@ -1,6 +1,25 @@
 
 local class = require('middleclass')
 
+
+local effil = require("effil")
+
+function bark(name)
+    print(name .. " barks from another thread!")
+end
+
+-- run funtion bark in separate thread with name "Spaky"
+local thr = effil.thread(bark)("Sparky")
+
+-- wait for completion
+thr:wait()
+thr:cancel()
+
+
+--===================================================================
+--
+--===================================================================
+--[[
 local R = {}
 
 Person = class('Person') --this is the same as class('Person', Object) or Object:subclass('Person')
@@ -41,9 +60,10 @@ R.AgedPerson = AgedPerson
 
 return R
 
---[[
 
---===================================================
+--===================================================================
+--
+--===================================================================
 local Conta = class('Conta')
 
 function Conta:initialize(conta, titular, saldo, limite)

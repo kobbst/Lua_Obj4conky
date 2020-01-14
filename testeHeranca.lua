@@ -1,20 +1,28 @@
 
-
+local class = require('middleclass')
 local cl = require("maisteste")
 local rt = require("rectangle")
+-- local fobj = require("figureObj")
 
+
+-- teste = class('teste', fobj)
+-- function teste:initialize(...)
+--   fobj.initialize(self, ...)
+
+-- end
 local v1 = rt.Rectangle:new()
 -- local v2 = roundedRectangle({x=80,y=280})
 local v2 = rt.roundedRectangle:new(20,288)
 v1:xy(50, 160)
 -- v2:xy(60, 250)
 
-print(v1:xy())
-print(v2:xy())
-print(v2:radiusEdge())
-print(v1:xy())
+-- print(v1:xy())
+-- print(v2:xy())
+print(v2:width(60))
+-- print(v1:xy())
 
-
+-- local ttt = teste:new()
+-- print(ttt:lineWidth())
 
 --[[
 -- Meta class

@@ -10,6 +10,8 @@ local hx = require("hexagon")
 local sc = require("sector")
 local rt = require("rectangle")
 
+local effil = require("effil")
+
 
 -------------------------------------------------------------------------------
 --                                                                         MAIN
@@ -18,6 +20,15 @@ function conky_main()
         return
     end
     -- print("ok...")
+    local updates = conky_parse('${updates}')
+    update_num = tonumber(updates)
+    
+    if update_num > 5 then
+        -- go_gauge_rings(display)
+    end
+    
+    print(math.fmod( update_num, 100 ))
+
     ds = cairo_xlib_surface_create(conky_window.display, conky_window.drawable, conky_window.visual, conky_window.width, conky_window.height)
     dr = cairo_create(ds)
     local fe1 = fe.new()
@@ -32,6 +43,8 @@ function conky_main()
     sc1:drawSector(100, 150, 50, 10, 40)
     sc1:test01(100, 150, 50, 10, 40)
     
+    -- cairo_set_operator(dr, CAIRO_OPERATOR_CLEAR)
+
     local x, y = hx1:getCenter()
     -- print (x .. " : " .. y)
     
@@ -40,11 +53,28 @@ function conky_main()
     -- print(th1:getAllvar:d())
     th1:draw(25, 350, 2, "ffffff", 0.3)
     -- print(th1:getPoints().p1.y)
+    local v2 = rt.Rectangle:new(30,350); 
+    v2:height(250); v2:width(150) ; v2:opacity(0.5)
+    -- local v3 = rt.roundedRectangle:new(5, 405) --  190, 150)
+    -- local v3 = rt.roundedRectangle:new(math.random(50) + 20, math.random(100) + 350) --  190, 150)
+    local m = 1
+    if math.fmod( update_num, 100 ) then m=-1 * m end
+    local v3 = rt.roundedRectangle:new( 20, 150 + m * math.fmod( update_num, 100 )) --  190, 150)
     
-    local v2 = rt.roundedRectangle:new(30,350, 400, 150)
-    local v3 = rt.roundedRectangle:new(5, 405, 190, 150)
-    v2:draw()
-    -- v3:drawRounded_2(); 
+    local function moveto( a, b )
+        return v2:moveto(a, b)
+    end
+    -- v2:draw()
+        -- body
+
+    v2:width(60); v2:height(40); v2:lineWidth(math.fmod( update_num, 5 ) + 1)
+    if update_num > 5 then
+        v2:moveto(math.random(100), math.random(100) + 150);
+
+
+    end
+    -- v2:moveto(30, 250); 
+
     v3:radiusEdge(20);
     v3:opacity(0.2)
     
@@ -76,7 +106,7 @@ function conky_main()
     -- local a,b = cairo_get_current_point(dr)
     cairo_stroke(dr)
     -- print(a.." : " .. b)
-    fe1:drawLine(hx1:getPoints().p1,hx1:getPoints().p4 ,2,"ff00aa",0.2)
+    -- fe1:drawLine(hx1:getPoints().p1,hx1:getPoints().p4 ,2,"ff00aa",0.2)
     
     
     
@@ -111,6 +141,20 @@ function conky_main()
     --                                                            angle_to_position
     -- convert degree to rad and rotate (0 degree is top/north)
     --
+
+    local function threadFn( ... )
+        local function bark(name)
+            print(name .. " barks from another thread!")
+        end
+        
+        -- run funtion bark in separate thread with name "Spaky"
+        local thr = effil.thread(bark)("Sparky")
+        
+        -- wait for completion
+        thr:wait()
+        thr:cancel()
+    end
+
     local function angle_to_position(start_angle, current_angle)
         local pos = current_angle + start_angle
         return ( ( pos * (2 * math.pi / 360) ) - (math.pi / 2) )
@@ -195,7 +239,7 @@ function conky_main()
         -- draw_rounded(dr, offset, w-offset, offset, h-offset, 5)
         draw_rounded(dr, 5, 75, 10, 45, 5)
     end
-    roudRec()
+    -- roudRec()
     -- test01()
     local function gradiente( ... )
         -- body
@@ -274,8 +318,9 @@ function conky_main()
     -- gradien2()
 
     -- grdn1()
+    -- threadFn()
 
-
+    
     cairo_surface_destroy(ds)
     cairo_destroy(dr)
 end
