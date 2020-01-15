@@ -1,8 +1,24 @@
 
 local class = require('middleclass')
-
-
 local effil = require("effil")
+local sector = require("sector")
+
+scx = sector:new(100,150) --            rd, ang1, ang2, angIntra ,n_angs, ang_ini
+local res, col = scx:drawSectors(10,150, 50, 10, 90, 5, 10, 180)
+
+print(col[1]:startAngle())
+print(col[2]:startAngle())
+print(col[3]:startAngle())
+print(col[4]:startAngle())
+
+-- print(scx:drawSectors(nil,nil, 50, 10, 90, 5, 10, 180))
+-- print(scx:endAngle())
+
+
+--===================================================================
+--
+--===================================================================
+--[[
 
 function bark(name)
     print(name .. " barks from another thread!")
@@ -16,10 +32,6 @@ thr:wait()
 thr:cancel()
 
 
---===================================================================
---
---===================================================================
---[[
 local R = {}
 
 Person = class('Person') --this is the same as class('Person', Object) or Object:subclass('Person')

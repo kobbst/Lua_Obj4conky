@@ -1,3 +1,6 @@
+
+require 'cairo'
+
 local figureObj = {}
 
 local gc = require("getColor")
@@ -15,7 +18,7 @@ function Figure:initialize( ... )
     self.color_default = op.cl or op[4] or 'ffffff'
     self.__opacity = op.op or op[5] or 1.
     self.__cr = cairo_create(ds) or nil
-    
+    self:applyDefs()
 end
 function Figure:opacity(value_opacity) -- setter line_width
     if value_opacity then self.__opacity = value_opacity end
@@ -35,5 +38,10 @@ function Figure:xy(x, y) -- setter x and y
     return self.x, self.y
 end
 
+function Figure:applyDefs( ... )
+    cairo_set_line_width (self.__cr, self.line_width)
+    -- cairo_set_source_rgba (self.__cr, 1, 1, 1,0.3)
+    cairo_set_source_rgba (self.__cr, gc.hex(self.color_default, self.__opacity))    
+end
 
 return Figure
