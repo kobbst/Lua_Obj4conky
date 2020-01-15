@@ -57,8 +57,12 @@ function conky_main()
     v2:height(250); v2:width(150) ; v2:opacity(0.5)
     -- local v3 = rt.roundedRectangle:new(5, 405) --  190, 150)
     -- local v3 = rt.roundedRectangle:new(math.random(50) + 20, math.random(100) + 350) --  190, 150)
-    local m = 1
-    if math.fmod( update_num, 100 ) then m=-1 * m end
+    local m, nm = 1, math.fmod( update_num, 100 )
+    if (nm == 0 and m == -1) then  m = 1 
+    elseif (nm == 0 and m == 1) then m = -1
+    else
+    end  
+print(m)
     local v3 = rt.roundedRectangle:new( 20, 150 + m * math.fmod( update_num, 100 )) --  190, 150)
     
     local function moveto( a, b )
