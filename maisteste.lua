@@ -2,6 +2,26 @@
 local class = require('middleclass')
 local effil = require("effil")
 local sector = require("sector")
+local rectangle = require("rectangle")
+local scale = require("scale")
+
+sc1 = scale:new()
+local ret = sc1:pointsMark(0, math.pi, 10 )
+for i=1,#ret do
+  print(ret[i].x ..":"..ret[i].y )
+end
+print(#ret)
+
+
+--===================================================================
+--
+--===================================================================
+--[[
+rt1 = rectangle.Rectangle:new();
+local rects, w, h, x  = rt1:drawGrid(10, 11, 100, 110, 10, 5, 1)
+print(rt1:drawGridWH(10, 11, 100, 110, 10, 5, 1))
+-- print(rects[2][2]:xy() .." w:" .. w .. " h:" .. h)
+
 
 scx = sector:new(100,150) --            rd, ang1, ang2, angIntra ,n_angs, ang_ini
 local res, col = scx:drawSectors(10,150, 50, 10, 90, 5, 10, 180)
@@ -15,10 +35,6 @@ print(col[4]:startAngle())
 -- print(scx:endAngle())
 
 
---===================================================================
---
---===================================================================
---[[
 
 function bark(name)
     print(name .. " barks from another thread!")

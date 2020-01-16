@@ -100,18 +100,18 @@ function Sector:drawSectors(x, y, rd, ang1, ang2, angIntra ,n_angs, ang_ini)
     local dta = ((ang2 - ang1) - (ngs * agIt))/ngs
 
     local collection = {}
-    local obj = Sector:new()
+    local obj = Sector:new(nil,nil, self.line_width,self.color_default, self.__opacity)
     obj:xy(x,y); obj:startAngle(ang1); obj:endAngle(ang1 + dta); obj:radius(rd)
     table.insert( collection, obj)
     obj = nil
     for i=2, ngs do
-        obj = Sector:new()
+        obj = Sector:new(nil,nil, self.line_width,self.color_default, self.__opacity)
         ang1 = ang1 + dta + agIt
         obj:xy(x,y); obj:startAngle(ang1); obj:endAngle(ang1 + dta); obj:radius(rd)
         table.insert( collection, obj)
         obj = nil
     end
-
+    -- while true do end
     -- for i=1,ngs do
     --     collection[i]:drawDelta(nil,nil,nil,nil,dta)
     -- end

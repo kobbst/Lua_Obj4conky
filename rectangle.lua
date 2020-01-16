@@ -40,7 +40,8 @@ function Rectangle:draw(...)
     cairo_scale (self.__cr, self.__width , self.__height)
     cairo_rectangle(self.__cr, 0, 0, 1, 1)
     cairo_restore (self.__cr)
-    
+    if self.__fill then cairo_fill(self.__cr) end
+
     cairo_stroke (self.__cr)
 end 
 function Rectangle:erase()
@@ -68,6 +69,52 @@ function Rectangle:axisPoints( ... )
     }
 end
 
+function Rectangle:drawGrid( x1, y1, x2, y2, n_sq_h, n_sq_v, espace )
+
+    local collection = {}
+    local xi, yi, xf, yf = x1 or 0, y1 or 0, x2 or 10, y2 or 10 -- treatement for params
+    local nv, nh, spce = n_sq_v or 1, n_sq_h or 1, espace or 1
+    local w, h = ((xf - xi)/nh) - spce, ((yf - yi)/nv) - spce -- width and height for each rectangle
+    local obj = nil
+    for i=1,n_sq_h do
+        collection[i] = {}
+        for j=1, n_sq_v do
+            obj = Rectangle:new(self.x, self.y, self.line_width, self.color_default, self.__opacity)
+            -- obj = Rectangle:new()
+            obj:xy(xi,yi); obj:width(w);obj:height(h)
+            xi, yi = obj:xy(); yi = yi + obj:height() + spce;
+            collection[i][j] = obj
+        end
+        xi = xi + obj:width() + spce;
+        yi = y1
+        
+    end
+    return collection, w, h," | ", x1, y1," | ", x2, y2
+end
+
+function Rectangle:drawGridWH( x1, y1, width, height, n_sq_h, n_sq_v, espace )
+
+    local collection = {}
+    local xi, yi, xf, yf = x1 or 0, y1 or 0, (x1 + width) or 10, (y1 + height) or 10 -- treatement for params
+    local nv, nh, spce = n_sq_v or 1, n_sq_h or 1, espace or 1
+    local w, h = ((xf - xi)/nh) - spce, ((yf - yi)/nv) - spce -- width and height for each rectangle
+    -- collection = self:drawGrid( x1, y1, x2, y2, n_sq_h, n_sq_v, espace )
+    local obj = nil
+    for i=1,n_sq_h do
+        collection[i] = {}
+        for j=1, n_sq_v do
+            obj = Rectangle:new(self.x, self.y, self.line_width, self.color_default, self.__opacity)
+            -- obj = Rectangle:new()
+            obj:xy(xi,yi); obj:width(w);obj:height(h)
+            xi, yi = obj:xy(); yi = yi + obj:height() + spce;
+            collection[i][j] = obj
+        end
+        xi = xi + obj:width() + spce;
+        yi = y1
+        
+    end   
+    return collection 
+end
  --=================== End of class Rectangle =======================
 
 -- ==================================================================

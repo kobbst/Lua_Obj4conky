@@ -18,7 +18,12 @@ function Figure:initialize( ... )
     self.color_default = op.cl or op[4] or 'ffffff'
     self.__opacity = op.op or op[5] or 1.
     self.__cr = cairo_create(ds) or nil
+    self.__fill = false
     self:applyDefs()
+end
+function Figure:fill(value_fill) -- setter height
+    if value_fill then self.__fill = value_fill end
+    return self.__fill
 end
 function Figure:opacity(value_opacity) -- setter line_width
     if value_opacity then self.__opacity = value_opacity end
