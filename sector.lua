@@ -104,14 +104,19 @@ function Sector:drawSectors(x, y, rd, ang1, ang2, angIntra ,n_angs, ang_ini)
     obj:xy(x,y); obj:startAngle(ang1); obj:endAngle(ang1 + dta); obj:radius(rd)
     table.insert( collection, obj)
     obj = nil
-    for i=2, 10 do
+    for i=2, ngs do
         obj = Sector:new()
         ang1 = ang1 + dta + agIt
         obj:xy(x,y); obj:startAngle(ang1); obj:endAngle(ang1 + dta); obj:radius(rd)
         table.insert( collection, obj)
         obj = nil
     end
-     return #collection, collection, dta
+
+    -- for i=1,ngs do
+    --     collection[i]:drawDelta(nil,nil,nil,nil,dta)
+    -- end
+
+    return #collection, collection, dta
 end
 
 function Sector:test01( ... )

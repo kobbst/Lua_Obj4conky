@@ -11,7 +11,7 @@ local sector = require("sector")
 local circle = require("circle")
 local rt = require("rectangle")
 
-local effil = require("effil")
+-- local effil = require("effil")
 
 
 -------------------------------------------------------------------------------
@@ -33,6 +33,7 @@ function conky_main()
     ds = cairo_xlib_surface_create(conky_window.display, conky_window.drawable, conky_window.visual, conky_window.width, conky_window.height)
     dr = cairo_create(ds)
 
+    -- print(conky_window.height)
     
     local sc1 = sector:new(100,150)
     sc1:opacity(0.3)
@@ -50,18 +51,25 @@ function conky_main()
     sc1:drawDelta(nil,nil,nil,360 - sc1:startAngle(),20)
     sc1:test01(100, 150, 50, 10, 40)
 
-    local res, col, dta = sc1:drawSectors(100,250, 50, 10, 180, 5, 10, 180)
-    
-    col[4]:lineWidth(1);col[4]:fill(true)
-    col[1]:drawDelta(nil,nil,nil,nil,dta)
-    col[2]:drawDelta(nil,nil,nil,nil,dta)
-    col[3]:drawDelta(nil,nil,nil,nil,dta)
-    col[4]:drawDelta(nil,nil,nil,nil,dta)
-    col[5]:drawDelta(nil,nil,nil,nil,dta)
-    col[6]:drawDelta(nil,nil,nil,nil,dta)
-    col[7]:drawDelta(nil,nil,nil,nil,dta)
-    col[8]:drawDelta(nil,nil,nil,nil,dta)
-    col[9]:drawDelta(nil,nil,nil,nil,dta)
+    local res, col, dta = sc1:drawSectors(80,250, 50, 0, 360, 5, 20, 180)
+    -- print(res)
+    local id = math.fmod( update_num, res ) +1
+    col[id]:lineWidth(4);col[id]:fill(true);col[id]:color('90f00f')
+    -- col[id]:drawDelta(nil,nil,nil,,dta)
+    for i=1,res do
+        col[i]:drawDelta(nil,nil,nil,nil,dta)
+    end
+    -- col[1]:drawDelta(nil,nil,nil,nil,dta)
+    -- col[2]:drawDelta(nil,nil,nil,nil,dta)
+    -- col[3]:drawDelta(nil,nil,nil,nil,dta)
+    -- col[4]:drawDelta(nil,nil,nil,nil,dta)
+    -- col[5]:drawDelta(nil,nil,nil,nil,dta)
+    -- col[6]:drawDelta(nil,nil,nil,nil,dta)
+    -- col[7]:drawDelta(nil,nil,nil,nil,dta)
+    -- col[8]:drawDelta(nil,nil,nil,nil,dta)
+    -- col[9]:drawDelta(nil,nil,nil,nil,dta)
+    -- col[10]:drawDelta(nil,nil,nil,nil,dta)
+    -- col[11]:drawDelta(nil,nil,nil,nil,dta)
 
     -- sc1:drawSector(100, 150, 50, 30, 60)
     cc1 = circle:new(); cc1:opacity(0.5); cc1:lineWidth(1)
