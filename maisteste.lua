@@ -1,12 +1,12 @@
 
 local class = require('middleclass')
-local effil = require("effil")
+-- local effil = require("effil")
 local sector = require("sector")
 local rectangle = require("rectangle")
 local scale = require("scale")
 
 sc1 = scale:new()
-local ret = sc1:pointsMark(0, math.pi, 10 )
+local ret = sc1:pointsMark(0, math.pi, 10, 20 )
 for i=1,#ret do
   print(ret[i].x ..":"..ret[i].y )
 end

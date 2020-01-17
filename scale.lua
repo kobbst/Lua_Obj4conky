@@ -27,13 +27,13 @@ function Scale:height(value_height) -- setter height
 end
 
 -- ===========  methods ====================
-function Scale:pointsMark(start_angle, end_angle, inter_angle )
+function Scale:pointsMark(start_angle, end_angle, inter_angle, radius )
     local points = {}
     local delta = end_angle - start_angle
-    local index = 1
     local ang_arc = delta / inter_angle
+    local index, raio = 1 , radius or 1
     for i= start_angle , end_angle, ang_arc do
-        points[index] = {x = math.sin(i), y = math.cos( i )}
+        points[index] = {x = raio * math.sin(i), y = raio * math.cos( i )}
         index = index + 1
     end
 

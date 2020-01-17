@@ -10,6 +10,7 @@ local hx = require("hexagon")
 local sector = require("sector")
 local circle = require("circle")
 local rt = require("rectangle")
+local scale = require("scale")
 
 -- local effil = require("effil")
 
@@ -76,7 +77,7 @@ function conky_main()
         rt1 = rt.Rectangle:new(nil, nil, 0, '0f9002', 0.4);
         rt2 = rt.Rectangle:new(nil, nil, 0, '0090a2', 0.4);
         
-        rects = rt1:drawGrid(10, 11, 200, 310, 20, 25, 2)
+        rects = rt1:drawGrid(10, 11, 200, 310, 20, 25, 2)local scale = require("scale")
 
         local rdx, rdy = math.random( 1,20), math.random( 1,25)
 
@@ -105,6 +106,8 @@ function conky_main()
     end
     local function circTeste( ... )
         local po = {x=100, y=250}
+        local sc1 = scale:new()
+        local points = sc1:pointsMark(0, math.pi, 10, 20)
         cairo_set_line_width (dr, 2)
         cairo_set_source_rgba (dr, 0.5,0.5,0.5, 0.8)
 
