@@ -89,7 +89,7 @@ function Rectangle:drawGrid( x1, y1, x2, y2, n_sq_h, n_sq_v, espace )
         yi = y1
         
     end
-    return collection, w, h," | ", x1, y1," | ", x2, y2
+    return collection --, w, h," | ", x1, y1," | ", x2, y2
 end
 
 function Rectangle:drawGridWH( x1, y1, width, height, n_sq_h, n_sq_v, espace )

@@ -4,15 +4,33 @@ local class = require('middleclass')
 local sector = require("sector")
 local rectangle = require("rectangle")
 local scale = require("scale")
+local ax = require("auxFunctions")
+
+
 
 sc1 = scale:new()
-local ret = sc1:pointsMark(0, math.pi, 10, 20 )
-for i=1,#ret do
-  print(ret[i].x ..":"..ret[i].y )
+-- local ret = sc1:pointsMark(0, math.pi, 10, 20 )
+-- for i=1,#ret do
+--   print(ret[i].x ..":"..ret[i].y )
+-- end
+-- print(#ret)
+
+
+local function pointOf( x0, y0, raio, alfa_1, alfa_2) --x, y, x0 , y0
+  return 
+    {x = x0 + raio*math.sin(alfa_1), y = y0 + raio*math.cos(alfa_1)},
+    {x = x0 + raio*math.sin(alfa_2), y = y0 + raio*math.cos(alfa_2)}
+  
+
 end
-print(#ret)
 
 
+local ag1, ag2, ag3 = 20, 0,45
+local ang1 = ax.anglePosition(ag1, ag2 ); 
+local ang2 = ax.anglePosition(ag1, ag3 )
+local po = {x=100, y=250}
+local p = pointOf(po.x, po.y, 45, ang1, ang2)
+print(ax.anglePosGrad(ag1, ag3))
 --===================================================================
 --
 --===================================================================

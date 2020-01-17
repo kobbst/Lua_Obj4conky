@@ -30,6 +30,7 @@ function conky_main()
     end
     
     -- print(math.fmod( update_num, 100 ))
+    
 
     ds = cairo_xlib_surface_create(conky_window.display, conky_window.drawable, conky_window.visual, conky_window.width, conky_window.height)
     dr = cairo_create(ds)
@@ -37,6 +38,7 @@ function conky_main()
     -- print(math.atan(ax.anglePosition(0,30))*180/math.pi)
 
     -- print(conky_window.height)
+    -- print(cairo_surface_get_type(ds))
     local function drwSecCircle( ... )
         -- body
         local sc1 = sector:new(conky_window.width/2,250,2,nil,0.3)
@@ -104,6 +106,7 @@ function conky_main()
             end
         end    
     end
+
     local function circTeste( ... )
         local po = {x=100, y=250}
         local sc1 = scale:new()
@@ -112,25 +115,83 @@ function conky_main()
         cairo_set_source_rgba (dr, 0.5,0.5,0.5, 0.8)
 
         cairo_move_to(dr,po.x,po.y)
-        cairo_arc(dr,po.x, po.y,0.1,0,2*math.pi);
-        cairo_new_sub_path(dr)
-        cairo_arc(dr,po.x, po.y,50,0,2*math.pi/2)
+        cairo_arc(dr,po.x, po.y,0.1,0,2*math.pi); cairo_new_sub_path(dr)
+        cairo_arc(dr,po.x, po.y,50, 30 * math.pi/180, 180 * math.pi/180); cairo_new_sub_path(dr)
+
+        local ag1, ag2, ag3 = 90, 0, 45
+        local ang1 = ax.anglePosition(ag1, ag2 ); 
+        local ang2 = ax.anglePosition(ag1, ag3 )
+        
+        -- print(ax.anglePosGrad(ag1, ag3))
+        -- print(ang1 .. ":" .. ang2)
+        local pg, pl = ax.pointOfAngleGrad(po.x, po.y,50 , 30), ax.pointOfAngleGrad(po.x, po.y,50 , 180)
+        cairo_arc(dr,pg.x, pg.y,3,0,2*math.pi); cairo_new_sub_path(dr)
+        cairo_arc(dr,pl.x, pl.y,3,0,2*math.pi); cairo_new_sub_path(dr)
+
+        -- local pv = pointOf(po.x, po.y, 50,0,2*math.pi/2)
+        -- cairo_arc(dr, pv[1].x, pv[1].y,3,0,2*math.pi); cairo_new_sub_path(dr)
+        -- cairo_arc(dr, pv[2].x, pv[2].y,2,0,2*math.pi);
+
         cairo_stroke(dr)
 
         
-        local ag1, ag2, ag3 = 20, 0,45
-        local ang1 = ax.anglePosition(ag1, ag2 ); 
-        local ang2 = ax.anglePosition(ag1, ag3 )
-
+        local pg, pl = ax.pointOfAngle 
         cairo_set_line_width (dr, 4)
         cairo_set_source_rgba (dr, 0.5,0.5,0.0, 0.8)
         cairo_new_sub_path(dr)
         cairo_arc(dr, po.x, po.y, 45, ang1, ang2) 
+        cairo_new_sub_path(dr)
+        cairo_stroke(dr)
 
+        -- local p = pointOf(po.x, po.y, 45, ang1, ang2)
+        
+        -- cairo_arc(dr, p.p1.x, p.p1.y,1,0,2*math.pi); cairo_new_sub_path(dr)
+        -- cairo_arc(dr, p.p2.x, p.p2.y,2,0,2*math.pi);
 
         cairo_stroke(dr)
     end
-    circTeste()
+
+    local function testePoint( ... )
+        local po = {x=100, y=250}
+
+        local pv = ax.pointOfAngleGrad(po.x, po.y,50,-100)
+        local pt = ax.pointOfAngleGrad(po.x, po.y,50,270)
+
+        cairo_set_line_width (dr, 2)
+        cairo_set_source_rgba (dr, 0.5,0.5,0.5, 0.8)
+
+        cairo_move_to(dr,po.x,po.y)
+        cairo_arc(dr,po.x, po.y,0.1,0,2*math.pi); --cairo_new_sub_path(dr)
+        cairo_arc(dr, pv.x, pv.y,3,0,2*math.pi); cairo_new_sub_path(dr)
+        cairo_arc(dr, pt.x, pt.y,3,0,2*math.pi); cairo_new_sub_path(dr)
+        
+
+        cairo_stroke(dr)
+    end
+
+    local function pointLine({x,y} )
+        local p1, p2 = {x=100, y=150}, {x=10, y=250}
+        local delta = {x = p2.x - p1.x, y = p2.y - p1.y}
+        local diag =  (delta.x^2 + delta.y^2)^0.5
+        
+        -- print(delta.y / delta.x * 10)
+        cairo_set_line_width (dr, 2)
+        cairo_set_source_rgba (dr, 0.5,0.5,0.5, 0.8)
+
+        cairo_move_to(dr,p1.x,p1.y)
+        cairo_arc(dr,p1.x, p1.y,2,0,2*math.pi); cairo_new_sub_path(dr)
+        cairo_arc(dr,p2.x, p2.y,2,0,2*math.pi); cairo_new_sub_path(dr)
+        cairo_arc(dr,p1.x + 10 , p1.y +  (10 * delta.y/delta.x) ,2,0,2*math.pi); cairo_new_sub_path(dr)
+        cairo_arc(dr,p1.x + 30 , p1.y +  (30 * delta.y/delta.x) ,2,0,2*math.pi); cairo_new_sub_path(dr)
+        cairo_arc(dr,p1.x + 50 , p1.y +  (50 * delta.y/delta.x) ,2,0,2*math.pi); cairo_new_sub_path(dr)
+
+
+        cairo_stroke(dr)
+
+    end
+    pointLine()
+    -- circTeste()
+    -- testePoint()
     cairo_surface_destroy(ds)
     cairo_destroy(dr)
 end
