@@ -32,7 +32,10 @@ end
 local function anglePosGrad( start_angle, current_angle )
 	return anglePosition(start_angle, current_angle) * 180 / math.pi
 end
-
+--===================================================================
+-- devolve uma tabela com ponto pertencente a um circulo dados
+-- ponto central, radio e angulo em graus
+--===================================================================
 local function pointOfAngleGrad( x0, y0, raio, alfa_1) --x, y, x0 , y0
 	return {
 		x = x0 + raio*math.sin((90 - alfa_1) * math.pi/180), 
@@ -40,6 +43,10 @@ local function pointOfAngleGrad( x0, y0, raio, alfa_1) --x, y, x0 , y0
 	}
 
 end
+--===================================================================
+-- devolve uma tabela com ponto pertencente a um circulo dados
+-- ponto central, radio e angulo em radianos
+--===================================================================
 local function pointOfAngleRad( x0, y0, raio, alfa_1) --x, y, x0 , y0
 	return {
 		x = x0 + raio*math.sin(math.pi/2 - alfa_1) , 
@@ -48,6 +55,44 @@ local function pointOfAngleRad( x0, y0, raio, alfa_1) --x, y, x0 , y0
 
 end  
 
+
+--===================================================================
+-- devolve uma tabela contendo a qtde de pontos solicitados em um 
+-- seguimento de reta entre dois pontos fornecidos
+--===================================================================
+local function pointsOfLine( xi, yi, xf, yf, n )
+	local p1, p2 = {x = xi or 0, y = yi or 0}, {x = xf or 0, y = yf or 0}
+
+	local delta = {x = p2.x - p1.x, y = p2.y - p1.y}
+	local incl = delta.y/delta.x
+	-- local diag =  (delta.x^2 + delta.y^2)^(1/2)
+	-- local teta = math.atan(incl)
+	-- p0.x + math.abs(delta.x)/2 , p0.y +  (math.abs(delta.x)/2 * incl) 
+	local p0 = {}
+	if (p2.x >= p1.x) then
+		p0 = {x = p1.x, y = p1.y}
+	else
+		p0 = {x = p2.x, y = p2.y}
+	end
+	-- if(n == nil or n == 0) then 
+	-- 	return {p = {x = p0.x + math.abs(delta.x)/2 ,y = p0.y +  (math.abs(delta.x)/2 * incl)} }
+	-- end
+	p = {}
+	for i=1, (n or 0) + 2 do
+		table.insert( p, {x = p0.x + i * math.abs(delta.x)/(n + 2),y = p0.y +  i * (math.abs(delta.x)/(n + 2) * incl)})
+	end
+
+	return p
+
+end
+
+local function pointsArcGrad( x0, y0, raio, angi, angf, npoints )
+    local p = {}
+    for alfa_1=angi, angf, (angf-angi)/(npoints + 1) do
+       table.insert( p, pointOfAngleGrad(x0, y0, raio, alfa_1))
+    end
+    return p
+end
 
 
 -- local p1, p2 = {x=1,y=2}, {x=3,y=4}
@@ -62,5 +107,7 @@ R.anglePosition = anglePosition
 R.anglePosGrad = anglePosGrad
 R.pointOfAngleRad = pointOfAngleRad
 R.pointOfAngleGrad = pointOfAngleGrad
+R.pointsOfLine = pointsOfLine
+R.pointsArcGrad = pointsArcGrad
 
 return R

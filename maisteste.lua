@@ -6,7 +6,12 @@ local rectangle = require("rectangle")
 local scale = require("scale")
 local ax = require("auxFunctions")
 
-
+-- local p = ax.pointsOfLine(100,150,10,250,5)
+local p = ax.pointsArcGrad(100,150,50,10,250,5)
+for k,v in pairs(p) do
+  print(k,v.x, v.y)
+end
+print(#p)
 
 sc1 = scale:new()
 -- local ret = sc1:pointsMark(0, math.pi, 10, 20 )
@@ -15,6 +20,7 @@ sc1 = scale:new()
 -- end
 -- print(#ret)
 
+--[[
 
 local function pointOf( x0, y0, raio, alfa_1, alfa_2) --x, y, x0 , y0
   return 
@@ -34,7 +40,6 @@ print(ax.anglePosGrad(ag1, ag3))
 --===================================================================
 --
 --===================================================================
---[[
 rt1 = rectangle.Rectangle:new();
 local rects, w, h, x  = rt1:drawGrid(10, 11, 100, 110, 10, 5, 1)
 print(rt1:drawGridWH(10, 11, 100, 110, 10, 5, 1))

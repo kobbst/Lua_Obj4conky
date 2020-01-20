@@ -39,6 +39,12 @@ function conky_main()
 
     -- print(conky_window.height)
     -- print(cairo_surface_get_type(ds))
+--[[
+============================================================================
+               Inicio da funções de teste graficas
+============================================================================
+]]
+
     local function drwSecCircle( ... )
         -- body
         local sc1 = sector:new(conky_window.width/2,250,2,nil,0.3)
@@ -131,7 +137,11 @@ function conky_main()
         -- local pv = pointOf(po.x, po.y, 50,0,2*math.pi/2)
         -- cairo_arc(dr, pv[1].x, pv[1].y,3,0,2*math.pi); cairo_new_sub_path(dr)
         -- cairo_arc(dr, pv[2].x, pv[2].y,2,0,2*math.pi);
-
+        local p = ax.pointsArcGrad(po.x,po.y,70,0,360,11)
+        for k,v in pairs(p) do
+            cairo_arc(dr,v.x, v.y ,2,0,2*math.pi); cairo_new_sub_path(dr)
+            -- cairo_arc(dr,v.x + 30 , v.y ,2,0,2*math.pi); cairo_new_sub_path(dr)
+        end
         cairo_stroke(dr)
 
         
@@ -161,7 +171,7 @@ function conky_main()
         cairo_set_source_rgba (dr, 0.5,0.5,0.5, 0.8)
 
         cairo_move_to(dr,po.x,po.y)
-        cairo_arc(dr,po.x, po.y,0.1,0,2*math.pi); --cairo_new_sub_path(dr)
+        cairo_arc(dr,po.x, po.y,0.1,0,2*math.pi); cairo_new_sub_path(dr)
         cairo_arc(dr, pv.x, pv.y,3,0,2*math.pi); cairo_new_sub_path(dr)
         cairo_arc(dr, pt.x, pt.y,3,0,2*math.pi); cairo_new_sub_path(dr)
         
@@ -169,29 +179,39 @@ function conky_main()
         cairo_stroke(dr)
     end
 
-    local function pointLine({x,y} )
+    local function pointLine( )
         local p1, p2 = {x=100, y=150}, {x=10, y=250}
-        local delta = {x = p2.x - p1.x, y = p2.y - p1.y}
-        local diag =  (delta.x^2 + delta.y^2)^0.5
-        
-        -- print(delta.y / delta.x * 10)
-        cairo_set_line_width (dr, 2)
-        cairo_set_source_rgba (dr, 0.5,0.5,0.5, 0.8)
+        -- local p1, p2 = {x=10, y=150}, {x=100, y=250}
 
-        cairo_move_to(dr,p1.x,p1.y)
-        cairo_arc(dr,p1.x, p1.y,2,0,2*math.pi); cairo_new_sub_path(dr)
-        cairo_arc(dr,p2.x, p2.y,2,0,2*math.pi); cairo_new_sub_path(dr)
-        cairo_arc(dr,p1.x + 10 , p1.y +  (10 * delta.y/delta.x) ,2,0,2*math.pi); cairo_new_sub_path(dr)
-        cairo_arc(dr,p1.x + 30 , p1.y +  (30 * delta.y/delta.x) ,2,0,2*math.pi); cairo_new_sub_path(dr)
-        cairo_arc(dr,p1.x + 50 , p1.y +  (50 * delta.y/delta.x) ,2,0,2*math.pi); cairo_new_sub_path(dr)
+        cairo_set_line_width (dr, 0.5)
+        cairo_set_source_rgba (dr, 0.01,0.01,0.7, 1)
 
+        local p = ax.pointsOfLine(p1.x,p1.y,p2.x,p2.y,20)
+        for k,v in pairs(p) do
+            cairo_arc(dr,v.x, v.y ,2,0,2*math.pi); cairo_new_sub_path(dr)
+            cairo_arc(dr,v.x + 30 , v.y ,2,0,2*math.pi); cairo_new_sub_path(dr)
+        end
 
         cairo_stroke(dr)
 
     end
-    pointLine()
-    -- circTeste()
+
+local function pointsArcGrad( x0, y0, raio, angi, angf, npoints )
+    local p = {}
+    for alfa_1=angi, angf, (angf-angi)/(npoints + 2) do
+       table.insert( p, pointOfAngleGrad(x0, y0, raio, alfa_1))
+    end
+    return p
+end
+
+
+    -- grid()
+    -- pointLine()
+    circTeste()
     -- testePoint()
+    -- drwSecCircle()
+
+
     cairo_surface_destroy(ds)
     cairo_destroy(dr)
 end
