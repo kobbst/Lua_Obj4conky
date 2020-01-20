@@ -134,15 +134,11 @@ function figura.new(cs)
         cairo_translate (cr, (x or 0), (y or 0))
         --    print((x or 0) + w / 2 .." :  " .. (y or 0) + h/2)
         cairo_rotate (cr, 0)
-        --    cairo_scale  (cr, 256.0/wi, 256.0/hi)
-        --    cairo_scale  (cr, (w or 50)/wi  , (h or 50)/hi)
         cairo_scale  (cr, (w or 50)  ,(w or 50)*ar)
-        --    cairo_translate (cr, -0.5*wi, -0.5*hi)
-        --    cairo_translate (cr, -0.5*wi, -0.5*hi)
-        
-        
+
         cairo_set_source_surface (cr, image, 0, 0)
-        cairo_paint (cr)
+        -- cairo_paint (cr)
+        cairo_paint_with_alpha(cr, 0.5)
         cairo_surface_destroy (image); 
         
         cairo_surface_destroy(cs)

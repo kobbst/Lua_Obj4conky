@@ -196,22 +196,60 @@ function conky_main()
 
     end
 
-local function pointsArcGrad( x0, y0, raio, angi, angf, npoints )
-    local p = {}
-    for alfa_1=angi, angf, (angf-angi)/(npoints + 2) do
-       table.insert( p, pointOfAngleGrad(x0, y0, raio, alfa_1))
+    local function testeGradiencia( x0, y0, raio, angi, angf, npoints )
+        
+        -- cairo_move_to(dr,100, 350)
+        cairo_set_line_width(dr,15)
+        local linpat = cairo_pattern_create_linear (10, 50, 100, 350);
+        -- cairo_pattern_add_color_stop_rgba (linpat, 0, 0, 0.3, 0.8,0.5);
+        -- cairo_pattern_add_color_stop_rgba (linpat, 1, 0, 0.8, 0.3,0.3);
+
+        cairo_pattern_add_color_stop_rgba (linpat, 0.35,  1, 1, 1, 0.5);
+        cairo_pattern_add_color_stop_rgba (linpat, 0.44,  0, 1, 0, 0.5);
+        cairo_pattern_add_color_stop_rgba (linpat, 0.45,  1, 1, 1, 0.5);
+        cairo_pattern_add_color_stop_rgba (linpat, 0.40,  0, 0, 1, 0.5);
+        cairo_pattern_add_color_stop_rgba (linpat, 0.40,  1, 0.5, 1, 0.6);
+
+        local radpat = cairo_pattern_create_radial (60, 250, 10, 100, 250, 50);
+        cairo_pattern_add_color_stop_rgba (radpat, 0, 1, 1, 0, 0.7);
+        cairo_pattern_add_color_stop_rgba (radpat, 0.5, 0, 0, 0, 0);
+        -- cairo_set_source (dr, linpat);
+        cairo_mask (dr, radpat); 
+        -- cairo_rectangle (dr, 10.0, 50.0, 100, 150);
+        cairo_set_source (dr, linpat);
+        -- cairo_fill (dr);
+        cairo_move_to(dr,50, 10)
+        cairo_line_to(dr, 100, 250)
+        cairo_stroke(dr)
     end
-    return p
+
+function gradience( ... )
+    -- body
+    cairo_scale(dr, 120, 120);
+    
+	radpat = cairo_pattern_create_radial (0.25, 0.25, 0.1,  0.5, 0.5, 0.5);
+	cairo_pattern_add_color_stop_rgb (radpat, 0,  1.0, 0.8, 0.8);
+	cairo_pattern_add_color_stop_rgb (radpat, 1,  0.9, 0.0, 0.0);
+    
+	for i=1, 10 do
+        for j=1,10 do
+            cairo_rectangle (dr, i/10.0 - 0.04, j/10.0 - 0.04, 0.08, 0.08);
+        end
+    end
+    cairo_set_source (dr, radpat);
+	cairo_fill (dr);
 end
 
-
+--[[ =================================================================
+                          inicio das chamadas
+     =================================================================]]  
     -- grid()
     -- pointLine()
     circTeste()
     -- testePoint()
     -- drwSecCircle()
-
-
+    testeGradiencia()
+    gradience()
     cairo_surface_destroy(ds)
     cairo_destroy(dr)
 end

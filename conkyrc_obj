@@ -59,7 +59,7 @@ conky.config = {
 };
 
 conky.text = [[
-${voffset 340}
+${voffset 640}
 
 ${font Monospace:size=9}${color0}
 ${color red}${hr 1}
