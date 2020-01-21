@@ -34,3 +34,6 @@ main (int argc, char *argv[])
 
         return 0;
 }
+
+
+//  cc -o hello $(pkg-config --cflags --libs cairo) hello.c
