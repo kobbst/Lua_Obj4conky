@@ -45,6 +45,56 @@ function conky_main()
 ============================================================================
 ]]
 
+    local function hexTeste( ... )
+
+        local hx1 = hx:new(50,190,5,'ff99ff',0.5,100, math.random( 0,90 ))
+
+        -- body
+        -- hx1:draw(70,30,2, "ffffff", 0.3,15)
+        -- hx1:fill(true)
+        hx1:draw()
+        -- print(hx1:getPoints().p1.x)
+        cairo_arc(dr, hx1:p0().x + hx1:pi().x, hx1:p0().y + hx1:pi().y, 3., 0,2*math.pi); cairo_new_sub_path(dr)
+        cairo_arc(dr, hx1:getPoints().p1.x, hx1:getPoints().p1.y, 3., 0,2*math.pi); cairo_new_sub_path(dr)
+        cairo_arc(dr, hx1:getPoints().p2.x, hx1:getPoints().p2.y, 3., 0,2*math.pi); cairo_new_sub_path(dr)
+        cairo_arc(dr, hx1:getPoints().p3.x, hx1:getPoints().p3.y, 3., 0,2*math.pi); cairo_new_sub_path(dr)
+        cairo_arc(dr, hx1:getPoints().p4.x, hx1:getPoints().p4.y, 3., 0,2*math.pi); cairo_new_sub_path(dr)
+        cairo_arc(dr, hx1:getPoints().p5.x, hx1:getPoints().p5.y, 3., 0,2*math.pi); cairo_new_sub_path(dr)
+        cairo_arc(dr, hx1:getPoints().p6.x, hx1:getPoints().p6.y, 3., 0,2*math.pi); cairo_new_sub_path(dr)
+
+
+        -- cairo_arc(dr, hx1:getPoints().p1.x, hx1:getPoints().p1.y, 5., 0,2*math.pi)
+        -- cairo_move_to(dr, 100, 310)
+        -- cairo_line_to (dr, 100 , 331)
+        -- local a,b = cairo_get_current_point(dr)
+        -- cairo_stroke(dr)
+        -- print(a.." : " .. b)
+        -- fe1:drawLine(hx1:getPoints().p1,hx1:getPoints().p4 ,2,"ff00aa",0.2)
+        
+        
+        
+        
+        -- hx1:draw(70,150,1,"22ff00",0.4,10)
+        -- hx1:draw(70,150,1,"22ff00",0.4,20)
+        -- hx1:draw(70,150,1,"22ff00",0.4,30)
+        -- hx1:draw(70,150,1,"22ff00",0.4,40)
+            
+    end
+
+
+    local function teste_topHex( ... )
+        
+
+        local th1 = th:new(25, 350, 2,"ffff00", 0.5, 50,0)
+
+        th1:draw(50, 350, 30)
+
+        -- th1:draw(75, 350, 4, "ffff00", 0.5)
+        -- cairo_arc(dr, th1:getPoints().p0.x, th1:getPoints().p0.y, 3., 0,2*math.pi); cairo_new_sub_path(dr)
+
+        
+    end
+
     local function drwSecCircle( ... )
         -- body
         local sc1 = sector:new(conky_window.width/2,250,2,nil,0.3)
@@ -116,7 +166,7 @@ function conky_main()
     local function circTeste( ... )
         local po = {x=100, y=250}
         local sc1 = scale:new()
-        local points = sc1:pointsMark(0, math.pi, 10, 20)
+        -- local points = sc1:pointsMark(0, math.pi, 10, 20)
         cairo_set_line_width (dr, 2)
         cairo_set_source_rgba (dr, 0.5,0.5,0.5, 0.8)
 
@@ -128,35 +178,27 @@ function conky_main()
         local ang1 = ax.anglePosition(ag1, ag2 ); 
         local ang2 = ax.anglePosition(ag1, ag3 )
         
-        -- print(ax.anglePosGrad(ag1, ag3))
-        -- print(ang1 .. ":" .. ang2)
         local pg, pl = ax.pointOfAngleGrad(po.x, po.y,50 , 30), ax.pointOfAngleGrad(po.x, po.y,50 , 180)
         cairo_arc(dr,pg.x, pg.y,3,0,2*math.pi); cairo_new_sub_path(dr)
         cairo_arc(dr,pl.x, pl.y,3,0,2*math.pi); cairo_new_sub_path(dr)
 
-        -- local pv = pointOf(po.x, po.y, 50,0,2*math.pi/2)
-        -- cairo_arc(dr, pv[1].x, pv[1].y,3,0,2*math.pi); cairo_new_sub_path(dr)
-        -- cairo_arc(dr, pv[2].x, pv[2].y,2,0,2*math.pi);
         local p = ax.pointsArcGrad(po.x,po.y,70,0,360,11)
         for k,v in pairs(p) do
             cairo_arc(dr,v.x, v.y ,2,0,2*math.pi); cairo_new_sub_path(dr)
             -- cairo_arc(dr,v.x + 30 , v.y ,2,0,2*math.pi); cairo_new_sub_path(dr)
         end
+        cairo_move_to(dr, po.x, po.y)
+        local ix = math.random( 1, 11 )
+        cairo_line_to(dr, p[ix].x, p[ix].y)
+
         cairo_stroke(dr)
 
-        
-        local pg, pl = ax.pointOfAngle 
         cairo_set_line_width (dr, 4)
         cairo_set_source_rgba (dr, 0.5,0.5,0.0, 0.8)
         cairo_new_sub_path(dr)
+
         cairo_arc(dr, po.x, po.y, 45, ang1, ang2) 
         cairo_new_sub_path(dr)
-        cairo_stroke(dr)
-
-        -- local p = pointOf(po.x, po.y, 45, ang1, ang2)
-        
-        -- cairo_arc(dr, p.p1.x, p.p1.y,1,0,2*math.pi); cairo_new_sub_path(dr)
-        -- cairo_arc(dr, p.p2.x, p.p2.y,2,0,2*math.pi);
 
         cairo_stroke(dr)
     end
@@ -272,13 +314,19 @@ end
 --[[ =================================================================
                           inicio das chamadas
      =================================================================]]  
-    -- grid()
-    -- pointLine()
-    circTeste()
-    -- testePoint()
-    -- drwSecCircle()
-    testeGradiencia()
-    gradence()
+
+     hexTeste() -- sucess
+     -- grid()
+     -- pointLine()
+     circTeste()
+     -- testePoint()
+     -- drwSecCircle()
+     -- testeGradiencia()
+     -- gradence()
+     teste_topHex()
+
+
+
     cairo_surface_destroy(ds)
     cairo_destroy(dr)
 end
