@@ -48,14 +48,18 @@ function topHexagon:initialize( ... )
     self.__height = (op[6] or 1)/(2*math.sqrt(3))
     self.__d = (self.__width or 1)/(2*math.cos(math.pi/6))
     self.__rotation = op[7] or 0
+    self.__drawT = false
+
 --[[ 
     self.__p0 = {x = (self.__width or 1)/(2), y = 0, z = 0}
     self.__p1 = {x = 0, y = self.__height, z = 0}
     self.__p2 = {x = self.__width, y = self.__height, z = 0}
  ]]
     self.__p0 = {x = 0, y = 0, z = 0}
-    self.__p1 = {x = (self.__width or 1)/(2), y = self.__height, z = 0}
-    self.__p2 = {x = self.__width, y = self.__height, z = 0}    
+    self.__p1 = {x = -(self.__width or 1)/(2), y = self.__height, z = 0}
+    self.__p2 = {x = self.__width/2, y = self.__height, z = 0}    
+    self.__py = {x = self.__p0.x, y = self.__p0.y - self.__width/2}
+
 
     self.__pc = {x = self.__d*(math.sqrt(3)/2) , y = self.__d, z = 0}    
 end
@@ -71,6 +75,10 @@ end
  function topHexagon:rotation(value_rotation) -- setter width
     if value_rotation then self.__rotation = value_rotation end
     return self.__rotation
+end
+function topHexagon:drawT(value_drawT) -- setter width
+    if value_drawT then self.__drawT = value_drawT end
+    return self.__drawT
 end
 function topHexagon:pi(x, y) 
     if(x ~= nil and y ~= nil) then
@@ -97,6 +105,8 @@ function topHexagon:recalculate( ... )
    self.__p0 = {x = 0, y = 0, z = 0}
    self.__p1 = {x = -(self.__width)/(2), y = self.__height, z = 0}
    self.__p2 = {x = self.__width/2, y = self.__height, z = 0} 
+   self.__py = {x = self.__p0.x, y = self.__p0.y - self.__width/2}
+
 
 --    self.__pc = {x = self.__d*(math.sqrt(3)/2) , y = self.__d, z = 0}    
     self.__pc = self.__p0
@@ -119,28 +129,64 @@ function topHexagon:draw( x, y, w)
         self.__p0.x, self.__p0.y = fn.rotPoint(self.__p0.x, self.__p0.y, self.__pc.x, self.__pc.y, self.__rotation)
         self.__p1.x, self.__p1.y = fn.rotPoint(self.__p1.x, self.__p1.y, self.__pc.x, self.__pc.y, self.__rotation)
         self.__p2.x, self.__p2.y = fn.rotPoint(self.__p2.x, self.__p2.y, self.__pc.x, self.__pc.y, self.__rotation)
+        if (self.__drawT) then
+            self.__py.x, self.__py.y = fn.rotPoint(self.__py.x, self.__py.y, self.__pc.x, self.__pc.y, self.__rotation)
+        end
     end
+    cairo_set_line_cap(self.__cr, CAIRO_LINE_CAP_ROUND)
 
     cairo_set_line_width (self.__cr,self.line_width)
     cairo_set_source_rgba (self.__cr, gc.hex(self.color_default, self.__opacity))
     
     cairo_translate (self.__cr, self.__pi.x, self.__pi.y)
-    cairo_move_to (self.__cr, self.__p2.x, self.__p2.y)
+
+    --[[
+    cairo_line_to (self.__cr, self.__p2.x, self.__p2.y)
     cairo_line_to (self.__cr, self.__p0.x, self.__p0.y)
     cairo_line_to (self.__cr, self.__p1.x, self.__p1.y)
+     ]]
+     cairo_move_to (self.__cr, self.__p0.x, self.__p0.y)
+     cairo_line_to (self.__cr, self.__p2.x, self.__p2.y)
+     cairo_move_to (self.__cr, self.__p0.x, self.__p0.y)
+     cairo_line_to (self.__cr, self.__p1.x, self.__p1.y)    
     
+     if(self.__drawT)then
+        cairo_move_to (self.__cr, self.__p0.x, self.__p0.y)
+        cairo_line_to (self.__cr, self.__py.x, self.__py.y)
+    end
+
     cairo_stroke (self.__cr)
     
 end
 
-function topHexagon:drawT( x, y, w )
+function topHexagon:drawY( x, y, w )
     self:draw(x, y, w)
+    local pv = {x = self.__p0.x, y = self.__p0.y - self.__width/2}
+    if (self.__rotation ~= nil or self.__rotation ~= 0) then
+        pv.x, pv.y = fn.rotPoint(pv.x, pv.y, self.__pc.x, self.__pc.y, self.__rotation)
+    end
+
+    cairo_set_line_cap(self.__cr, CAIRO_LINE_CAP_ROUND)
     cairo_move_to (self.__cr, self.__p0.x, self.__p0.y)
-    cairo_line_to (self.__cr, self.__p0.x, self.__p0.y - self.__width/2)
+    cairo_line_to (self.__cr, pv.x, pv.y)
     cairo_stroke (self.__cr)
-    return 
+
+
+    return {x = pv.x, y = pv.y}
 end
 
+function topHexagon:anchorPoints( ... )
+    points = {}
+    table.insert( points, fn.sumPoints(self.__p0,self.__pi))
+    table.insert( points, fn.sumPoints(self.__p1,self.__pi))
+    table.insert( points, fn.sumPoints(self.__p2,self.__pi))
+    -- points.p0 = self.__p0
+    -- points.p1 = self.__p1
+    -- points.p2 = self.__p2
+    if(self.__drawT) then table.insert( points, fn.sumPoints(self.__py,self.__pi)) end
+
+    return points
+end
 
 return topHexagon
 
@@ -188,10 +234,7 @@ function topHex.new(width)
         cairo_move_to (ldr, self.p2.x, self.p2.y)
         cairo_line_to (ldr, self.p0.x, self.p0.y)
         cairo_line_to (ldr, self.p1.x, self.p1.y)
-        
-        
-        cairo_stroke (ldr)
-
+        if(self.__drawT)then
         -- cairo_surface_destroy(ds)
         cairo_destroy(ldr)        
     end

@@ -94,6 +94,13 @@ local function pointsArcGrad( x0, y0, raio, angi, angf, npoints )
     return p
 end
 
+local function sumPoint( ... )
+	local p = {...}
+	if(#p == 2) then 
+		return {x = (p[1].x or 0) + (p[2].x or 0), y = (p[1].y or 0) + (p[2].y or 0)}
+	end
+	return nil
+end
 
 -- local p1, p2 = {x=1,y=2}, {x=3,y=4}
 
@@ -109,5 +116,7 @@ R.pointOfAngleRad = pointOfAngleRad
 R.pointOfAngleGrad = pointOfAngleGrad
 R.pointsOfLine = pointsOfLine
 R.pointsArcGrad = pointsArcGrad
+R.sumPoints = sumPoint
+
 
 return R

@@ -15,6 +15,7 @@ local scale = require("scale")
 -- local effil = require("effil")
 
 
+
 -------------------------------------------------------------------------------
 --                                                                         MAIN
 function conky_main()
@@ -44,6 +45,14 @@ function conky_main()
                Inicio da funções de teste graficas
 ============================================================================
 ]]
+
+
+    local function logo()
+        local tha = th:new(105, 192, 4,"0000ff", 0.5, 50,180); tha:draw()
+        local thb = th:new(100, 200, 4,"00ff00", 0.5, 50,60); thb:draw()
+        local thc = th:new(110, 200, 4,"ff0000", 0.5, 50,300); thc:draw()
+
+    end
 
     local function hexTeste( ... )
 
@@ -80,21 +89,37 @@ function conky_main()
         -- hx1:draw(70,150,1,"22ff00",0.4,40)
             
     end
-
-
+--__________-------__________.....
     local function teste_topHex( ... )
         
+        local th1 = th:new(100, 390, 4,"ffff00", 0.5, 150,60)
 
-        local th1 = th:new(25, 350, 2,"ffff00", 0.5, 50,90)
 
-        th1:drawT(100, 450, 60)
+        -- th1:drawY(100, 450, 60)
+        th1:drawT(true) ;th1:draw()
+        -- th1:draw(100, 450, 60)
+        local p = th1:anchorPoints()
+        -- print(p[1].x, p[1].y, p[2].x, p[2].y, p[3].x, p[3].y, p[4].x, p[4].y)
 
         -- th1:draw(75, 350, 4, "ffff00", 0.5)
-        -- cairo_arc(dr, th1:getPoints().p0.x, th1:getPoints().p0.y, 3., 0,2*math.pi); cairo_new_sub_path(dr)
+        cairo_arc(dr, th1:anchorPoints()[1].x, th1:anchorPoints()[1].y, 0., 0,2*math.pi); cairo_new_sub_path(dr); 
+        cairo_arc(dr, th1:anchorPoints()[2].x, th1:anchorPoints()[2].y, 0., 0,2*math.pi); cairo_new_sub_path(dr); 
+        cairo_arc(dr, th1:anchorPoints()[3].x, th1:anchorPoints()[3].y, 0., 0,2*math.pi); cairo_new_sub_path(dr); 
+        if(th1:drawT()) then 
+            cairo_arc(dr, th1:anchorPoints()[4].x, th1:anchorPoints()[4].y, 0., 0,2*math.pi); cairo_new_sub_path(dr); 
+        end
+        cairo_stroke(dr)
+        cairo_set_line_cap(dr, CAIRO_LINE_CAP_BUTT) --CAIRO_LINE_CAP_ROUND CAIRO_LINE_CAP_BUTT CAIRO_LINE_CAP_SQUARE
+        cairo_move_to(dr,p[2].x, p[2].y)
+        cairo_line_to(dr,p[3].x, p[3].y)
+        cairo_line_to(dr,p[4].x, p[4].y)
+        cairo_line_to(dr,p[2].x, p[2].y)
+        -- cairo_line_to(dr,p[3].x, p[3].y, p[4].x, p[4].y)
+        -- cairo_line_to(dr,p[2].x, p[2].y, p[4].x, p[4].y)
+        cairo_stroke(dr)
 
-        
     end
-
+--__________-------__________.....
     local function drwSecCircle( ... )
         -- body
         local sc1 = sector:new(conky_window.width/2,250,2,nil,0.3)
@@ -130,6 +155,7 @@ function conky_main()
         
         cc1:drawEllipse(conky_window.width/2,250,100,100)
     end
+--__________-------__________.....
     local function grid( ... )
         -- body
         rt1 = rt.Rectangle:new(nil, nil, 0, '0f9002', 0.4);
@@ -162,7 +188,7 @@ function conky_main()
             end
         end    
     end
-
+--__________-------__________.....
     local function circTeste( ... )
         local po = {x=100, y=250}
         local sc1 = scale:new()
@@ -202,7 +228,7 @@ function conky_main()
 
         cairo_stroke(dr)
     end
-
+--__________-------__________.....
     local function testePoint( ... )
         local po = {x=100, y=250}
 
@@ -220,7 +246,7 @@ function conky_main()
 
         cairo_stroke(dr)
     end
-
+--__________-------__________.....
     local function pointLine( )
         local p1, p2 = {x=100, y=150}, {x=10, y=250}
         -- local p1, p2 = {x=10, y=150}, {x=100, y=250}
@@ -237,7 +263,7 @@ function conky_main()
         cairo_stroke(dr)
 
     end
-
+--__________-------__________.....
     local function testeGradiencia( x0, y0, raio, angi, angf, npoints )
         
         -- cairo_move_to(dr,100, 350)
@@ -264,7 +290,7 @@ function conky_main()
         cairo_line_to(dr, 100, 250)
         cairo_stroke(dr)
     end
-
+--__________-------__________.....
 function gradience( ... )
     -- body
     cairo_scale(dr, 120, 120);
@@ -281,7 +307,7 @@ function gradience( ... )
     cairo_set_source (dr, radpat);
 	cairo_fill (dr);
 end
-
+--__________-------__________.....
 function gradence( ... )
     cr = cairo_create (ds);
 	cairo_scale (cr, 120, 120);
@@ -309,22 +335,22 @@ function gradence( ... )
 	cairo_set_source (cr, linpat);
 	cairo_fill (cr);
 end
-
+--__________-------__________.....
 
 --[[ =================================================================
                           inicio das chamadas
      =================================================================]]  
 
-     hexTeste() -- sucess
-     -- grid()
-     -- pointLine()
-     circTeste()
-     -- testePoint()
-     -- drwSecCircle()
+    --  hexTeste() -- sucess
+    --  grid()
+    --  pointLine()
+    --  circTeste()
+    --  testePoint()
+    --  drwSecCircle()
      -- testeGradiencia()
      -- gradence()
-     teste_topHex()
-
+    teste_topHex()
+    logo()
 
 
     cairo_surface_destroy(ds)
