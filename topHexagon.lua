@@ -43,16 +43,20 @@ function topHexagon:initialize( ... )
     Figure.initialize(self, ...)
     local op = { ... }
     -- x, y, ln, cl, op, w,
-    self.__width = op.w or op[6] or 1; 
-    self.__height = (op.w or op[6] or 1)/(2*math.sqrt(3))
+    self.__pi = {x = op[1] or 0,  y = op[2] or 0, z = 0}  
+    self.__width = op[6] or 1; 
+    self.__height = (op[6] or 1)/(2*math.sqrt(3))
     self.__d = (self.__width or 1)/(2*math.cos(math.pi/6))
     self.__rotation = op[7] or 0
-    self.__pi = {x = op[1] or 0,  y = op[2] or 0, z = 0}  
-
+--[[ 
     self.__p0 = {x = (self.__width or 1)/(2), y = 0, z = 0}
     self.__p1 = {x = 0, y = self.__height, z = 0}
     self.__p2 = {x = self.__width, y = self.__height, z = 0}
-    
+ ]]
+    self.__p0 = {x = 0, y = 0, z = 0}
+    self.__p1 = {x = (self.__width or 1)/(2), y = self.__height, z = 0}
+    self.__p2 = {x = self.__width, y = self.__height, z = 0}    
+
     self.__pc = {x = self.__d*(math.sqrt(3)/2) , y = self.__d, z = 0}    
 end
 -- ===========  getters/setters ====================
@@ -85,13 +89,17 @@ function topHexagon:centerPoint() return self.__pc end
 function topHexagon:recalculate( ... )
     self.__height = self.__width/(2*math.sqrt(3))
     self.__d = (self.__width )/(2*math.cos(math.pi/6))
-
+--[[ 
     self.__p0 = {x = (self.__width or 1)/(2), y = 0, z = 0}
     self.__p1 = {x = 0, y = self.__height, z = 0}
     self.__p2 = {x = self.__width, y = self.__height, z = 0}
-    
-    self.__pc = {x = self.__d*(math.sqrt(3)/2) , y = self.__d, z = 0}    
+   ]]  
+   self.__p0 = {x = 0, y = 0, z = 0}
+   self.__p1 = {x = -(self.__width)/(2), y = self.__height, z = 0}
+   self.__p2 = {x = self.__width/2, y = self.__height, z = 0} 
 
+--    self.__pc = {x = self.__d*(math.sqrt(3)/2) , y = self.__d, z = 0}    
+    self.__pc = self.__p0
 end
 
 function topHexagon:draw( x, y, w)
@@ -123,6 +131,14 @@ function topHexagon:draw( x, y, w)
     
     cairo_stroke (self.__cr)
     
+end
+
+function topHexagon:drawT( x, y, w )
+    self:draw(x, y, w)
+    cairo_move_to (self.__cr, self.__p0.x, self.__p0.y)
+    cairo_line_to (self.__cr, self.__p0.x, self.__p0.y - self.__width/2)
+    cairo_stroke (self.__cr)
+    return 
 end
 
 

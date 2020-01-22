@@ -85,9 +85,9 @@ function conky_main()
     local function teste_topHex( ... )
         
 
-        local th1 = th:new(25, 350, 2,"ffff00", 0.5, 50,0)
+        local th1 = th:new(25, 350, 2,"ffff00", 0.5, 50,90)
 
-        th1:draw(50, 350, 30)
+        th1:drawT(100, 450, 60)
 
         -- th1:draw(75, 350, 4, "ffff00", 0.5)
         -- cairo_arc(dr, th1:getPoints().p0.x, th1:getPoints().p0.y, 3., 0,2*math.pi); cairo_new_sub_path(dr)
