@@ -50,11 +50,11 @@ function topHexagon:initialize( ... )
     self.__rotation = op[7] or 0
     self.__drawT = false
 
---[[ 
-    self.__p0 = {x = (self.__width or 1)/(2), y = 0, z = 0}
-    self.__p1 = {x = 0, y = self.__height, z = 0}
-    self.__p2 = {x = self.__width, y = self.__height, z = 0}
- ]]
+    --[[ 
+        self.__p0 = {x = (self.__width or 1)/(2), y = 0, z = 0}
+        self.__p1 = {x = 0, y = self.__height, z = 0}
+        self.__p2 = {x = self.__width, y = self.__height, z = 0}
+    ]]
     self.__p0 = {x = 0, y = 0, z = 0}
     self.__p1 = {x = -(self.__width or 1)/(2), y = self.__height, z = 0}
     self.__p2 = {x = self.__width/2, y = self.__height, z = 0}    
@@ -137,7 +137,7 @@ function topHexagon:draw( x, y, w)
 
     cairo_set_line_width (self.__cr,self.line_width)
     cairo_set_source_rgba (self.__cr, gc.hex(self.color_default, self.__opacity))
-    
+    cairo_save(self.__cr)
     cairo_translate (self.__cr, self.__pi.x, self.__pi.y)
 
     --[[
@@ -155,6 +155,7 @@ function topHexagon:draw( x, y, w)
         cairo_line_to (self.__cr, self.__py.x, self.__py.y)
     end
 
+    cairo_restore(self.__cr)
     cairo_stroke (self.__cr)
     
 end

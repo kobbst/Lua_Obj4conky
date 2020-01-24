@@ -131,7 +131,7 @@ function Hexagon:draw(x, y, rt)
     -- cairo_destroy(self.__cr) 
 end
 
-function Hexagon:getPoints( ... )
+function Hexagon:anchorPoints( ... )
     return {p0 = {x = self.__p0.x + self.__pi.x, y = self.__p0.y + self.__pi.y}, 
             p1 = {x = self.__p1.x + self.__pi.x, y = self.__p1.y + self.__pi.y},  
             p2 = {x = self.__p2.x + self.__pi.x, y = self.__p2.y + self.__pi.y},  

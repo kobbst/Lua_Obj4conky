@@ -11,6 +11,8 @@ local sector = require("sector")
 local circle = require("circle")
 local rt = require("rectangle")
 local scale = require("scale")
+local tri = require("triangle")
+
 
 -- local effil = require("effil")
 
@@ -30,7 +32,7 @@ function conky_main()
         -- go_gauge_rings(display)
     end
     
-    -- print(math.fmod( update_num, 100 ))
+    -- print(math.fmod( update_num, 180 ))
     
 
     ds = cairo_xlib_surface_create(conky_window.display, conky_window.drawable, conky_window.visual, conky_window.width, conky_window.height)
@@ -46,12 +48,88 @@ function conky_main()
 ============================================================================
 ]]
 
+    local function trat_image( image )
+        -- body
+
+        local data = cairo_image_surface_get_data (image);
+        local width = cairo_image_get_width(image);
+        local height = cairo_image_get_height(image);
+        local stride = cairo_image_get_stride(image);
+        for i = 0, height do
+            local row = data + i * stride;
+            for j = 0, width do
+            --[[ 
+            // do something with the pixel at (i, j), which lies at row + j * (pixel size),
+            // based on the result of cairo_image_get_format and platform endian-ness
+            ]]
+            end
+        end
+    end
+
+    local function fig_imagem(filename,x, y, w, h)
+        -- print('olaaaa')
+
+        local fln = filename or "/home/kobb/Imagens/wwoman01.png"
+        local image = cairo_image_surface_create_from_png (fln)
+
+        local wi = cairo_image_surface_get_width (image)
+        local hi = cairo_image_surface_get_height (image)
+        local ar = wi/hi
+        -- print(ar)
+        -- print(cairo_image_surface_get_height(image), cairo_image_surface_get_width(image), cairo_​image_​surface_​get_​stride(image))
+
+
+        --    print(x.."  :  "..y)
+        --    cairo_rotate (cr, 45* math.pi/180)
+        --    cairo_scale  (cr, w or wi, h or hi)
+        --    cairo_translate (cr, x or 0, y or 0)
+        --    cairo_translate (cr, -0.5*wi, -0.5*hi)
+        cairo_save(dr)
+        cairo_translate (dr, (x or 0), (y or 0))
+        --    print((x or 0) + w / 2 .." :  " .. (y or 0) + h/2)
+        cairo_rotate (dr, 0*math.pi/6)
+        cairo_scale  (dr, (w or 50)/cairo_image_surface_get_width(image)  ,(w or 50)/cairo_image_surface_get_width(image))
+
+        cairo_set_source_surface (dr, image, 0, 0)
+        -- cairo_paint (dr)
+        cairo_paint_with_alpha(dr, 0.5)
+        cairo_surface_destroy (image); 
+        cairo_restore(dr)
+    end
+
+    -- fig_imagem()
+    -- fig_imagem("cairo_c/showtext.png",0, 410,10,10)
+    fig_imagem("/home/kobb/Imagens/wwoman01.png",0, 720,50,50)
+    fig_imagem("/home/kobb/Imagens/darkseid01.png",0, 420,50,50)
+    fig_imagem("/home/kobb/Downloads/HUD/ka.png",0, 120,200,50)
+
+    local function testTriangle()
+        cairo_set_line_width (dr, 2)
+        cairo_set_source_rgba (dr, 0.5,0.5,0.5, 0.8)
+        -- math.fmod( update_num, 36) * 10
+        local t1 = tri:new(105, 250, 2,"0aa0ff", 0.5, 50, 60) ; t1:draw()
+        -- t1:fill(true)
+        -- t1:rotationPoint(pt.pc.x - pt.pi.x ,pt.pc.y - pt.pi.y )
+        t1:draw(100, 550,30,60,math.random( -10, 25 ))
+        local pt = t1:anchorPoints()
+        t1:draw(65, 650,80,60, math.random( -20, 40 ))
+        local pt2 = t1:anchorPoints()
+        cairo_new_sub_path(dr)
+        cairo_move_to(dr,pt.p0.x, pt.p0.y); cairo_line_to(dr,pt2.p0.x, pt2.p0.y) ;  cairo_new_sub_path(dr)
+        cairo_move_to(dr,pt.p1.x, pt.p1.y); cairo_line_to(dr,pt2.p1.x, pt2.p1.y) ;  cairo_new_sub_path(dr)
+        cairo_move_to(dr,pt.p2.x, pt.p2.y); cairo_line_to(dr,pt2.p2.x, pt2.p2.y) ;  cairo_new_sub_path(dr)
+
+        -- print(pt.pc.x, pt.pc.y)
+    end
+    testTriangle()
 
     local function logo()
         local tha = th:new(105, 192, 4,"0000ff", 0.5, 50,180); tha:draw()
         local thb = th:new(100, 200, 4,"00ff00", 0.5, 50,60); thb:draw()
         local thc = th:new(110, 200, 4,"ff0000", 0.5, 50,300); thc:draw()
-
+        
+        local fe3 = fe.new()
+        fe3:imagem("/home/kobb/Imagens/wwoman01.png",0, 410,100,100)
     end
 
     local function hexTeste( ... )

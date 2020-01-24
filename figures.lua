@@ -120,7 +120,8 @@ function figura.new(cs)
         local cr = cairo_create(cs)
         
         local image = cairo_image_surface_create_from_png (filename)
-        
+        -- print('olaaaa')
+
         local wi = cairo_image_surface_get_width (image)
         local hi = cairo_image_surface_get_height (image)
         local ar = wi/hi
@@ -137,8 +138,8 @@ function figura.new(cs)
         cairo_scale  (cr, (w or 50)  ,(w or 50)*ar)
 
         cairo_set_source_surface (cr, image, 0, 0)
-        -- cairo_paint (cr)
-        cairo_paint_with_alpha(cr, 0.5)
+        cairo_paint (cr)
+        -- cairo_paint_with_alpha(cr, 0.5)
         cairo_surface_destroy (image); 
         
         cairo_surface_destroy(cs)
