@@ -8,12 +8,16 @@ local ax = require("auxFunctions")
 
 -- local p = ax.pointsOfLine(100,150,10,250,5)
 local p = ax.pointsArcGrad(100,150,50,10,250,5)
-for k,v in pairs(p) do
-  print(k,v.x, v.y)
-end
-print(#p)
 
-sc1 = scale:new()
+print(tonumber("AEF",16))
+
+
+-- for k,v in pairs(p) do
+--   print(k,v.x, v.y)
+-- end
+-- print(#p)
+
+-- sc1 = scale:new()
 -- local ret = sc1:pointsMark(0, math.pi, 10, 20 )
 -- for i=1,#ret do
 --   print(ret[i].x ..":"..ret[i].y )
