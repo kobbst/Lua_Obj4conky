@@ -48,6 +48,7 @@ function conky_main()
 ============================================================================
 ]]
 
+<<<<<<< HEAD
 
     local function   _cairo_boilerplate_get_image_surface (src, page, width, height)
         --[[ 
@@ -89,22 +90,69 @@ function conky_main()
     end
 
     local function trat_image( image )
+=======
+    local function testeCreate( ... )
+        
+        -- local surf = cairo_image_surface_create("CAIRO_FORMAT_ARGB32",50,50)
+        
+        local data = {}
+
+        for i=1,100 do
+            data[i] = 0
+        end
+
+        local surf = cairo_image_surface_create_for_data(data,"CAIRO_FORMAT_ARGB32",10,10,4)
+
+        
+        local w = cairo_image_surface_get_width(surf)
+        local h = cairo_image_surface_get_height(surf)
+
+        print(w,h)
+
+
+        cairo_surface_destroy (surf);        
+
+    end
+
+    -- testeCreate()
+
+    local function trat_image( image_file )
+>>>>>>> 2a001e192df9b5235f1024e917f729096da61c5f
         -- body
 
-        local data = cairo_image_surface_get_data (image);
+        format = "CAIRO_FORMAT_ARGB32";
+        stride = cairo_format_stride_for_width(format, COLS);
+        local image = cairo_image_surface_create_from_png (image_file)
+
+        local data = cairo_image_surface_get_data (image)
+        -- print(type(data))
+
+--[[ 
         local width = cairo_image_get_width(image);
         local height = cairo_image_get_height(image);
         local stride = cairo_image_get_stride(image);
+ ]]
+
+        --[[ 
         for i = 0, height do
             local row = data + i * stride;
             for j = 0, width do
-            --[[ 
-            // do something with the pixel at (i, j), which lies at row + j * (pixel size),
-            // based on the result of cairo_image_get_format and platform endian-ness
-            ]]
+             
+            --// do something with the pixel at (i, j), which lies at row + j * (pixel size),
+            --// based on the result of cairo_image_get_format and platform endian-ness
+            
             end
         end
+ ]]
+        -- surface = cairo_image_surface_create_for_data(pix, format, COLS, ROWS, stride)
+ 
+
+        -- cairo_set_source_surface (dr, image, 0, 0);
+        -- cairo_paint (dr);
+        cairo_surface_destroy (image);        
     end
+    
+    -- trat_image("/home/kobb/Imagens/wwoman01.png")
 
     local function fig_imagem(filename,x, y, w, h)
         -- print('olaaaa')
@@ -139,9 +187,15 @@ function conky_main()
 
     -- fig_imagem()
     -- fig_imagem("cairo_c/showtext.png",0, 410,10,10)
+<<<<<<< HEAD
     fig_imagem("/home/kopp/Imagens/wwoman01.png",0, 720,50,50)
     fig_imagem("/home/kopp/Imagens/darkseid01.png",0, 420,50,50)
     fig_imagem("/home/kopp/Downloads/HUD/ka.png",0, 120,200,50)
+=======
+    fig_imagem("/home/kobb/Imagens/wwoman01.png",0, 720,50,50)
+    fig_imagem("/home/kobb/Imagens/ironman_01.png",0, 420,300,50)
+    fig_imagem("/home/kobb/Imagens/git_cartaz.png",0, 0,300,50)
+>>>>>>> 2a001e192df9b5235f1024e917f729096da61c5f
 
     local function testTriangle()
         cairo_set_line_width (dr, 2)
@@ -161,7 +215,7 @@ function conky_main()
 
         -- print(pt.pc.x, pt.pc.y)
     end
-    testTriangle()
+    -- testTriangle()
 
     local function logo()
         local tha = th:new(105, 192, 4,"0000ff", 0.5, 50,180); tha:draw()
