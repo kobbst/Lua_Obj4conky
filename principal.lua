@@ -48,6 +48,46 @@ function conky_main()
 ============================================================================
 ]]
 
+
+    local function   _cairo_boilerplate_get_image_surface (src, page, width, height)
+        --[[ 
+            cairo_surface_t *surface;
+            cairo_t *cr;
+         ]]
+        if (cairo_surface_get_type (src) == CAIRO_SURFACE_TYPE_IMAGE) then 
+            local ww = cairo_image_surface_get_width (src);
+            local hh = cairo_image_surface_get_height (src);
+            if (width == ww && hh == height) {
+                return cairo_surface_reference (src);
+            } else {
+                local format = cairo_image_surface_get_format (src);
+                local data = cairo_image_surface_get_data (src);
+                local stride = cairo_image_surface_get_stride (src);
+        
+                data += stride * (hh - height) + 4 * (ww - width);
+                return cairo_image_surface_create_for_data (data, format, width, height, stride)
+            }
+        end
+        
+        if (page != 0) then
+            return --[[ cairo_boilerplate_surface_create_in_error  ]](CAIRO_STATUS_SURFACE_TYPE_MISMATCH);
+        
+            --[[ /* extract sub-surface */ ]]
+            surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, width, height);
+            cr = cairo_create (surface);
+            cairo_surface_destroy (surface);
+        
+            cairo_set_source_surface (cr, src, 0, 0);
+            cairo_set_operator (cr, CAIRO_OPERATOR_SOURCE);
+            cairo_paint (cr);
+        
+            surface = cairo_surface_reference (cairo_get_target (cr));
+            cairo_destroy (cr);
+        
+            return surface;
+        end        
+    end
+
     local function trat_image( image )
         -- body
 
@@ -69,7 +109,7 @@ function conky_main()
     local function fig_imagem(filename,x, y, w, h)
         -- print('olaaaa')
 
-        local fln = filename or "/home/kobb/Imagens/wwoman01.png"
+        local fln = filename or "/home/kopp/Imagens/wwoman01.png"
         local image = cairo_image_surface_create_from_png (fln)
 
         local wi = cairo_image_surface_get_width (image)
@@ -99,9 +139,9 @@ function conky_main()
 
     -- fig_imagem()
     -- fig_imagem("cairo_c/showtext.png",0, 410,10,10)
-    fig_imagem("/home/kobb/Imagens/wwoman01.png",0, 720,50,50)
-    fig_imagem("/home/kobb/Imagens/darkseid01.png",0, 420,50,50)
-    fig_imagem("/home/kobb/Downloads/HUD/ka.png",0, 120,200,50)
+    fig_imagem("/home/kopp/Imagens/wwoman01.png",0, 720,50,50)
+    fig_imagem("/home/kopp/Imagens/darkseid01.png",0, 420,50,50)
+    fig_imagem("/home/kopp/Downloads/HUD/ka.png",0, 120,200,50)
 
     local function testTriangle()
         cairo_set_line_width (dr, 2)
@@ -129,7 +169,7 @@ function conky_main()
         local thc = th:new(110, 200, 4,"ff0000", 0.5, 50,300); thc:draw()
         
         local fe3 = fe.new()
-        fe3:imagem("/home/kobb/Imagens/wwoman01.png",0, 410,100,100)
+        fe3:imagem("/home/kopp/Imagens/wwoman01.png",0, 410,100,100)
     end
 
     local function hexTeste( ... )
